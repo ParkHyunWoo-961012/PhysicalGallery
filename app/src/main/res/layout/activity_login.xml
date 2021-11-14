@@ -10,10 +10,10 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/signin"
         android:layout_alignParentTop="true"
         android:layout_marginTop="10dp"
-        android:src="@drawable/mainpage"
-        android:layout_below="@id/signin"/>
+        android:src="@drawable/mainpage" />
 
     <LinearLayout
         android:id="@+id/signin"
