@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/home"
+        android:enabled="true"
+        android:title="Home" />
+    <!--android:icon = "@drawable/ic_home"-->
+    <item
+        android:id="@+id/search"
+        android:enabled="true"
+        android:icon = "@drawable/search"
+        android:title="Search" />
+
+    <item
+        android:id="@+id/upload"
+        android:enabled="true"
+        android:title="Upload"/>
+    <!--android:icon = "@drawable/ic_home"-->/>
+    <item
+        android:id="@+id/alarm"
+        android:enabled="true"
+        android:title="Alarm"/>
+    <!--android:icon = "@drawable/ic_home"-->/>
+    <item
+        android:id="@+id/account"
+        android:enabled="true"
+        android:icon = "@drawable/account"
+        android:title="Account"/>
+    <!--android:icon = "@drawable/ic_home"-->/>
+    <!-- 각각 어울리는 아이콘 필요함 -->
+
+
+</menu>

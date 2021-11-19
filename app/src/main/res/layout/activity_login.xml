@@ -12,15 +12,16 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/signin"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="-259dp"
         android:src="@drawable/mainpage" />
 
     <LinearLayout
+
         android:id="@+id/signin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="-13dp"
+        android:layout_marginTop="-40dp"
         android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout
@@ -33,7 +34,7 @@
                 android:id="@+id/email_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint = "Email"/>
+                android:hint="Email" />
 
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -44,25 +45,40 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp">
 
-            <EditText android:inputType="textPassword"
+            <EditText
                 android:id="@+id/password_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Password" />
-
+                android:hint="Password"
+                android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/email_login_button"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="35dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="15dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="40dp"
+            android:layout_weight="1"
             android:text="@string/common_signin_button_text"
             android:theme="@style/ButtonStyle" />
 
+        <Button
+            android:id="@+id/google_sign_button"
+            android:layout_width="442dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="40dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/googlesignimage" />
+
+
     </LinearLayout>
+
+
 
 </RelativeLayout>
