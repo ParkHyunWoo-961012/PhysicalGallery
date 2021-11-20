@@ -2,6 +2,7 @@ package com.example.physicalgallery
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import com.example.physicalgallery.databinding.ActivityMainBinding
 import com.example.physicalgallery.navigation.AlarmFrag
@@ -11,6 +12,7 @@ import com.example.physicalgallery.navigation.UserFrag
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.home -> {
@@ -51,6 +53,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        Log.d("166","155")
         binding.bottomNavigation.setOnNavigationItemSelectedListener(this)
     }
 
