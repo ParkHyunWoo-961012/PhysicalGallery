@@ -2,112 +2,191 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
+<<<<<<< HEAD
     "identityHash": "bcb3e41bbacadc62b4ed201e3c585a3b",
     "entities": [
       {
         "tableName": "Food",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER, `food_name` TEXT, `big_classifier` TEXT, `small_classifier` TEXT, `provide_per_time` TEXT, `provide_unit` TEXT, `provide_total` TEXT, `calories` TEXT, `protein` TEXT, `fat` TEXT, `carbo` TEXT, `sugar` TEXT, `fiber` TEXT, `calcium` TEXT, `potassium` TEXT, `sodium` TEXT, `amino` TEXT, `cholestero` TEXT, `totalfat` TEXT, `transfat` TEXT, `caffein` TEXT, PRIMARY KEY(`id`))",
+=======
+    "identityHash": "32d2b01cb066fde4b5baf84f940e0a5b",
+    "entities": [
+      {
+        "tableName": "Food",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `food_code` TEXT NOT NULL, `food_name` TEXT NOT NULL, `big_classifier` TEXT NOT NULL, `small_classifier` TEXT NOT NULL, `provide_per_time` TEXT NOT NULL, `provide_unit` TEXT NOT NULL, `provide_total` TEXT NOT NULL, `calories` TEXT NOT NULL, `protein` TEXT NOT NULL, `fat` TEXT NOT NULL, `carbo` TEXT NOT NULL, `sugar` TEXT NOT NULL, `fiber` TEXT NOT NULL, `calcium` TEXT NOT NULL, `potassium` TEXT NOT NULL, `sodium` TEXT NOT NULL, `amino` TEXT NOT NULL, `콜레스테롤` TEXT NOT NULL, `총지방` TEXT NOT NULL, `트랜스지방` TEXT NOT NULL, `카페` TEXT NOT NULL, PRIMARY KEY(`id`))",
+>>>>>>> origin/master
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "INTEGER",
+<<<<<<< HEAD
             "notNull": false
+=======
+            "notNull": true
+          },
+          {
+            "fieldPath": "food_code",
+            "columnName": "food_code",
+            "affinity": "TEXT",
+            "notNull": true
+>>>>>>> origin/master
           },
           {
             "fieldPath": "food_name",
             "columnName": "food_name",
             "affinity": "TEXT",
+<<<<<<< HEAD
             "notNull": false
+=======
+            "notNull": true
+>>>>>>> origin/master
           },
           {
             "fieldPath": "big_classifier",
             "columnName": "big_classifier",
             "affinity": "TEXT",
+<<<<<<< HEAD
             "notNull": false
+=======
+            "notNull": true
+>>>>>>> origin/master
           },
           {
             "fieldPath": "small_classifier",
             "columnName": "small_classifier",
             "affinity": "TEXT",
+<<<<<<< HEAD
             "notNull": false
+=======
+            "notNull": true
+>>>>>>> origin/master
           },
           {
             "fieldPath": "provide_per_time",
             "columnName": "provide_per_time",
             "affinity": "TEXT",
+<<<<<<< HEAD
             "notNull": false
+=======
+            "notNull": true
+>>>>>>> origin/master
           },
           {
             "fieldPath": "provide_unit",
             "columnName": "provide_unit",
             "affinity": "TEXT",
+<<<<<<< HEAD
             "notNull": false
+=======
+            "notNull": true
+>>>>>>> origin/master
           },
           {
             "fieldPath": "provide_total",
             "columnName": "provide_total",
             "affinity": "TEXT",
+<<<<<<< HEAD
             "notNull": false
+=======
+            "notNull": true
+>>>>>>> origin/master
           },
           {
             "fieldPath": "calories",
             "columnName": "calories",
             "affinity": "TEXT",
+<<<<<<< HEAD
             "notNull": false
+=======
+            "notNull": true
+>>>>>>> origin/master
           },
           {
             "fieldPath": "protein",
             "columnName": "protein",
             "affinity": "TEXT",
+<<<<<<< HEAD
             "notNull": false
+=======
+            "notNull": true
+>>>>>>> origin/master
           },
           {
             "fieldPath": "fat",
             "columnName": "fat",
             "affinity": "TEXT",
+<<<<<<< HEAD
             "notNull": false
+=======
+            "notNull": true
+>>>>>>> origin/master
           },
           {
             "fieldPath": "carbo",
             "columnName": "carbo",
             "affinity": "TEXT",
+<<<<<<< HEAD
             "notNull": false
+=======
+            "notNull": true
+>>>>>>> origin/master
           },
           {
             "fieldPath": "sugar",
             "columnName": "sugar",
             "affinity": "TEXT",
+<<<<<<< HEAD
             "notNull": false
+=======
+            "notNull": true
+>>>>>>> origin/master
           },
           {
             "fieldPath": "fiber",
             "columnName": "fiber",
             "affinity": "TEXT",
+<<<<<<< HEAD
             "notNull": false
+=======
+            "notNull": true
+>>>>>>> origin/master
           },
           {
             "fieldPath": "calcium",
             "columnName": "calcium",
             "affinity": "TEXT",
+<<<<<<< HEAD
             "notNull": false
+=======
+            "notNull": true
+>>>>>>> origin/master
           },
           {
             "fieldPath": "potassium",
             "columnName": "potassium",
             "affinity": "TEXT",
+<<<<<<< HEAD
             "notNull": false
+=======
+            "notNull": true
+>>>>>>> origin/master
           },
           {
             "fieldPath": "sodium",
             "columnName": "sodium",
             "affinity": "TEXT",
+<<<<<<< HEAD
             "notNull": false
+=======
+            "notNull": true
+>>>>>>> origin/master
           },
           {
             "fieldPath": "amino",
             "columnName": "amino",
             "affinity": "TEXT",
+<<<<<<< HEAD
             "notNull": false
           },
           {
@@ -133,6 +212,33 @@
             "columnName": "caffein",
             "affinity": "TEXT",
             "notNull": false
+=======
+            "notNull": true
+          },
+          {
+            "fieldPath": "cholestero",
+            "columnName": "콜레스테롤",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "totalfat",
+            "columnName": "총지방",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "transfat",
+            "columnName": "트랜스지방",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "caffein",
+            "columnName": "카페",
+            "affinity": "TEXT",
+            "notNull": true
+>>>>>>> origin/master
           }
         ],
         "primaryKey": {
@@ -148,7 +254,11 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+<<<<<<< HEAD
       "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'bcb3e41bbacadc62b4ed201e3c585a3b')"
+=======
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '32d2b01cb066fde4b5baf84f940e0a5b')"
+>>>>>>> origin/master
     ]
   }
 }
