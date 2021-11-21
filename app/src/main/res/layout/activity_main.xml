@@ -14,12 +14,12 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:foregroundGravity="center"
-                android:src="@drawable/appmenu"></ImageView>
+                android:src="@drawable/appmenu">
+            </ImageView>
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 
