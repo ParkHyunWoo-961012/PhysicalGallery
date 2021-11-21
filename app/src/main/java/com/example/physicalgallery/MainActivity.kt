@@ -1,14 +1,16 @@
 package com.example.physicalgallery
 
+import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.example.physicalgallery.databinding.ActivityMainBinding
-import com.example.physicalgallery.navigation.AlarmFrag
-import com.example.physicalgallery.navigation.DetailFrag
-import com.example.physicalgallery.navigation.GridFrag
-import com.example.physicalgallery.navigation.UserFrag
+import com.example.physicalgallery.navigation.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.util.jar.Manifest
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -26,9 +28,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 return true
             }
             R.id.upload -> {
-                var detailFrag = DetailFrag()
-                supportFragmentManager.beginTransaction().replace(R.id.main_contents, detailFrag)
-                    .commit()
+                if(ContextCompat.checkSelfPermission(this,android.Manifest.permission.READ_EXTERNAL_STORAGE)==PackageManager.PERMISSION_GRANTED){
+                    startActivity(Intent(this,AddPhotoActivity::class.java))
+                }
                 return true
             }
             R.id.search -> {
@@ -52,6 +54,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.bottomNavigation.setOnNavigationItemSelectedListener(this)
+        ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),1)
+
     }
 
 
