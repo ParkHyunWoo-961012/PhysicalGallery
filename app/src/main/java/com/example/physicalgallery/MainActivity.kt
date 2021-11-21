@@ -53,7 +53,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        Log.d("166","155")
         binding.bottomNavigation.setOnNavigationItemSelectedListener(this)
     }
 

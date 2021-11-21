@@ -8,7 +8,6 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 @Entity(tableName = "Food")
 data class Food(
     @PrimaryKey val id:Int,
-    @ColumnInfo(name = "food_code") val food_code:String,
     @ColumnInfo(name = "food_name") val food_name:String,
     @ColumnInfo(name = "big_classifier") val big_classifier:String,
     @ColumnInfo(name = "small_classifier") val small_classifier:String,
@@ -25,11 +24,12 @@ data class Food(
     @ColumnInfo(name = "potassium") val potassium:String,
     @ColumnInfo(name = "sodium") val sodium:String,
     @ColumnInfo(name = "amino") val amino:String,
-    @ColumnInfo(name = "콜레스테롤") val cholestero:String,
-    @ColumnInfo(name = "총지방") val totalfat:String,
-    @ColumnInfo(name = "트랜스지방") val transfat:String,
-    @ColumnInfo(name = "카페") val caffein:String
+    @ColumnInfo(name = "cholestero") val cholestero:String,
+    @ColumnInfo(name = "totalfat") val totalfat:String,
+    @ColumnInfo(name = "transfat") val transfat:String,
+    @ColumnInfo(name = "caffein") val caffein:String
 )
+
 @Dao
 interface FoodInterface{
     @Query("Select * From Food")
@@ -52,7 +52,7 @@ abstract class FoodDatabase: RoomDatabase() {
                         context.applicationContext,
                         FoodDatabase::class.java,
                         "Food.db"
-                    ).createFromAsset("Sample/Food.db").build()
+                    ).createFromAsset("food.db").build()
                 }
             }
             return INSTANCE
