@@ -76,8 +76,14 @@
             android:layout_gravity="center_horizontal"
             android:background="@drawable/googlesignimage" />
 
-
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text ="Go to Search Actvitiy"
+            android:id="@+id/foodsearch"
+            />
     </LinearLayout>
+
 
 
 

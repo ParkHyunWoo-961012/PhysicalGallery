@@ -7,7 +7,7 @@ import android.util.Log
 import com.example.physicalgallery.databinding.ActivityFoodSearchBinding
 import java.io.BufferedInputStream
 
-class FoodSearch : AppCompatActivity() {
+class FoodSearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityFoodSearchBinding.inflate(layoutInflater)
@@ -16,10 +16,6 @@ class FoodSearch : AppCompatActivity() {
         val getFood = GetFood(applicationContext)
         getFood.start()
 
-        val mg = resources.assets
-        val inputStream = mg.open("Food.json")
-        val bis = BufferedInputStream(inputStream)
-        Log.d("abdsfnsajkdlfnasjkldfnasdjklfnjklads","${bis.bufferedReader().readLine()}}")
     }
 }
 class GetFood(val context: Context) : Thread(){
@@ -39,7 +35,7 @@ class GetFood(val context: Context) : Thread(){
 
 
         for(i in items){
-            Log.d("Foodlist", "${i.id}|${i.food_code} | ${i.food_name
+            Log.d("Foodlist", "${i.id}|${i.id} | ${i.food_name
             } | ${i.big_classifier} | ${i.small_classifier} | ${i.sodium}")
         }
     }
