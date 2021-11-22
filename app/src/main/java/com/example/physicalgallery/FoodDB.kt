@@ -11,7 +11,7 @@ import org.w3c.dom.Text
 data class Food(
     @PrimaryKey val id:Int?,
     @ColumnInfo(name = "food_name",typeAffinity = 2) val food_name: String?,
-    @ColumnInfo(name = "big_classifier",typeAffinity = 2,) val big_classifier: String?,
+    @ColumnInfo(name = "big_classifier", typeAffinity = 2) val big_classifier: String?,
     @ColumnInfo(name = "small_classifier") val small_classifier: String?,
     @ColumnInfo(name = "provide_per_time") val provide_per_time: String?,
     @ColumnInfo(name = "provide_unit") val provide_unit: String?,
@@ -39,6 +39,11 @@ interface FoodInterface{
 
     @Insert
     fun addFoodDb(food : Food)
+
+    @Query("Select * From Food Where food_name Like '%'||:name||'%'")
+    fun getItem(name:String?) : List<Food>
+
+
 }
 
 @Database(entities = [Food::class],version = 1,exportSchema = true)

@@ -4,10 +4,17 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import com.example.physicalgallery.databinding.ActivityFoodSearchBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import org.w3c.dom.Text
 import java.io.BufferedInputStream
 
 class FoodSearchActivity : AppCompatActivity() {
+    val FoodDB : FoodDatabase by lazy {FoodDatabase.getInstance(this)!!}
+    var name = "돼지고기"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityFoodSearchBinding.inflate(layoutInflater)
@@ -17,26 +24,19 @@ class FoodSearchActivity : AppCompatActivity() {
         getFood.start()
 
     }
+    fun findfood(view: View){
+        GlobalScope.launch(Dispatchers.IO){
+            val foodList : List<Food> = FoodDB.FoodDao().getItem(name)
+            Log.d("112323","${foodList}")
+        }
+    }
 }
 class GetFood(val context: Context) : Thread(){
     override fun run() {
-//        val fd = Food(100,"11","dd","11","11","11"
-//        ,"11", 11F,11F,11F,11F,11F,11F,11F,11F,11F,11F,
-//        11F,11F,11F,11F,1F)
-//        FoodDatabase
-//            .getInstance(context)!!
-//            .FoodDao()
-//            .addFoodDb(fd)
-
         val items = FoodDatabase
             .getInstance(context)!!
             .FoodDao()
-            .getAll()
-
-
-        for(i in items){
-            Log.d("Foodlist", "${i.id}|${i.id} | ${i.food_name
-            } | ${i.big_classifier} | ${i.small_classifier} | ${i.sodium}")
-        }
+            .getItem(name)
+       Log.d("123123123","${name.toString()}")
     }
 }
