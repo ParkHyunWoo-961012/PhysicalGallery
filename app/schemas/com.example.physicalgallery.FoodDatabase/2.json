@@ -1,0 +1,154 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "bcb3e41bbacadc62b4ed201e3c585a3b",
+    "entities": [
+      {
+        "tableName": "Food",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER, `food_name` TEXT, `big_classifier` TEXT, `small_classifier` TEXT, `provide_per_time` TEXT, `provide_unit` TEXT, `provide_total` TEXT, `calories` TEXT, `protein` TEXT, `fat` TEXT, `carbo` TEXT, `sugar` TEXT, `fiber` TEXT, `calcium` TEXT, `potassium` TEXT, `sodium` TEXT, `amino` TEXT, `cholestero` TEXT, `totalfat` TEXT, `transfat` TEXT, `caffein` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "food_name",
+            "columnName": "food_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "big_classifier",
+            "columnName": "big_classifier",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "small_classifier",
+            "columnName": "small_classifier",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "provide_per_time",
+            "columnName": "provide_per_time",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "provide_unit",
+            "columnName": "provide_unit",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "provide_total",
+            "columnName": "provide_total",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "calories",
+            "columnName": "calories",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "protein",
+            "columnName": "protein",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fat",
+            "columnName": "fat",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "carbo",
+            "columnName": "carbo",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sugar",
+            "columnName": "sugar",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fiber",
+            "columnName": "fiber",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "calcium",
+            "columnName": "calcium",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "potassium",
+            "columnName": "potassium",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sodium",
+            "columnName": "sodium",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "amino",
+            "columnName": "amino",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "cholestero",
+            "columnName": "cholestero",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "totalfat",
+            "columnName": "totalfat",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "transfat",
+            "columnName": "transfat",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "caffeing",
+            "columnName": "caffein",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'bcb3e41bbacadc62b4ed201e3c585a3b')"
+    ]
+  }
+}
