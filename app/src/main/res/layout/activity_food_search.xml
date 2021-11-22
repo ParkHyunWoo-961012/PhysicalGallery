@@ -25,4 +25,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/food_name" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        app:layoutManager ="androidx.recyclerview.widget.LinearLayoutManager"
+        android:id="@+id/search_result"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/food_search"
+        tools:layout_editor_absoluteX="103dp"
+        tools:listitem="@layout/food_result" />
 </androidx.constraintlayout.widget.ConstraintLayout>

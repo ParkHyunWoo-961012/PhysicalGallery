@@ -1,10 +1,12 @@
 package com.example.physicalgallery
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.physicalgallery.databinding.ActivityFoodSearchBinding
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.CoroutineScope
@@ -22,6 +24,7 @@ class FoodSearchActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.foodSearch.setOnClickListener{
+
             var name = (binding.foodName.text).toString()
             if (name == ""){
                 Toast.makeText(applicationContext,"you don't any input",Toast.LENGTH_LONG).show()
@@ -30,12 +33,11 @@ class FoodSearchActivity : AppCompatActivity() {
                 CoroutineScope(Dispatchers.IO).launch {
                     var A = FoodDB.FoodDao().getItem(name)
                     if (A[0] != null){
-
-                        for(i in 0 .. (A.size-1)) {
-                            Log.e("Food Result", "${A[i].food_name}")
-                        }
+                        val foodadapter = FoodAdapter(A)
+                        binding.searchResult.adapter = foodadapter
                     }
                 }
+
             }
         }
     }
