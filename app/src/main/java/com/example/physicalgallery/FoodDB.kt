@@ -1,14 +1,15 @@
 package com.example.physicalgallery
 
 import android.content.Context
-import android.icu.lang.UCharacter
-import android.util.Log
+import android.os.Parcelable
+import androidx.lifecycle.LiveData
 import androidx.room.*
-import androidx.sqlite.db.SupportSQLiteDatabase
-import org.w3c.dom.Text
+import java.io.Serializable
+import java.lang.reflect.Type
+import java.util.concurrent.Flow
 
 @Entity(tableName = "Food")
-data class Food(
+data class Food (
     @PrimaryKey val id:Int?,
     @ColumnInfo(name = "food_name",typeAffinity = 2) val food_name: String?,
     @ColumnInfo(name = "big_classifier", typeAffinity = 2) val big_classifier: String?,
@@ -35,7 +36,7 @@ data class Food(
 @Dao
 interface FoodInterface{
     @Query("Select * From Food")
-    fun getAll(): List<Food>
+    fun getAll(): Array<Food>
 
     @Insert
     fun addFoodDb(food : Food)

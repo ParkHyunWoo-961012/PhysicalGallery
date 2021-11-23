@@ -1,6 +1,7 @@
 package com.example.physicalgallery
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -33,8 +34,11 @@ class FoodSearchActivity : AppCompatActivity() {
                 CoroutineScope(Dispatchers.IO).launch {
                     var A = FoodDB.FoodDao().getItem(name)
                     if (A[0] != null){
-                        val foodadapter = FoodAdapter(A)
-                        binding.searchResult.adapter = foodadapter
+                        var intent = Intent(this@FoodSearchActivity,FoodResult::class.java)
+
+                        //intent.putExtra("search result",A)
+                        Log.e("FoodSearchActivity","${A.toString()}")
+                        //startActivity(intent)
                     }
                 }
 
