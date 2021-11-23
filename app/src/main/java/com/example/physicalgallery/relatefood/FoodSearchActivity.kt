@@ -1,25 +1,19 @@
-package com.example.physicalgallery
+package com.example.physicalgallery.relatefood
 
-import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.appcompat.app.AppCompatActivity
 import com.example.physicalgallery.databinding.ActivityFoodSearchBinding
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-
-import org.w3c.dom.Text
-import java.io.BufferedInputStream
+import kotlinx.coroutines.launch
 
 class FoodSearchActivity : AppCompatActivity() {
     val FoodDB: FoodDatabase by lazy { FoodDatabase.getInstance(this)!! }
     val binding by lazy{ActivityFoodSearchBinding.inflate(layoutInflater)}
     lateinit var food: FoodDatabase
+    var search_result : ArrayList<Food> = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -33,33 +27,18 @@ class FoodSearchActivity : AppCompatActivity() {
             else {
                 CoroutineScope(Dispatchers.IO).launch {
                     var A = FoodDB.FoodDao().getItem(name)
-                    if (A[0] != null){
-                        val search_result : ArrayList<Food> = arrayListOf()
+                    if (A!= emptyList<Food>()){
                         for(i in 0..(A.size-1)){
                             search_result.add(A[i])
                         }
-                        var intent = Intent(this@FoodSearchActivity,FoodResult::class.java)
-
+                        var intent = Intent(this@FoodSearchActivity, FoodResult::class.java)
                         intent.putExtra("search result",search_result)
-                        Log.e("FoodSearchActivity","${search_result}")
                         startActivity(intent)
                     }
+                    //예외처리 필요 이상한거 검색했을때
                 }
 
             }
         }
     }
-
-//    fun find_food(view: View) {
-//        var name:String? = binding.foodName.text as String?
-//        if (name == null){
-//            Toast.makeText(applicationContext,"you don't any input",Toast.LENGTH_LONG).show()
-//        }
-//        else {
-//            CoroutineScope(Dispatchers.IO).launch {
-//                var A = FoodDB?.FoodDao().getItem(name)
-//                Log.e("11","${A.toString()}")
-//            }
-//        }
-//    }
 }

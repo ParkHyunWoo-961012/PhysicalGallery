@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.example.physicalgallery.databinding.ActivityLoginBinding
+import com.example.physicalgallery.relatefood.FoodSearchActivity
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -12,7 +13,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.GoogleAuthCredential
 import com.google.firebase.auth.GoogleAuthProvider
 
 class Login : AppCompatActivity() {
@@ -31,7 +31,7 @@ class Login : AppCompatActivity() {
             googlelogin()
         }
         binding.foodsearch.setOnClickListener{
-            val intent = Intent(this,FoodSearchActivity::class.java)
+            val intent = Intent(this, FoodSearchActivity::class.java)
             startActivity(intent)
         }
         var google = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

@@ -13,13 +13,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PhysicalGallery">
         <activity
-            android:name=".FoodResult"
+            android:name=".relatefood.FoodResult"
             android:exported="true" />
         <activity
             android:name=".navigation.AddPhotoActivity"
             android:exported="false" />
         <activity
-            android:name=".FoodSearchActivity"
+            android:name=".relatefood.FoodSearchActivity"
             android:exported="true" />
         <activity
             android:name=".Login"

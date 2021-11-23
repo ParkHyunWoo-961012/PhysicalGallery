@@ -1,12 +1,8 @@
-package com.example.physicalgallery
+package com.example.physicalgallery.relatefood
 
 import android.content.Context
-import android.os.Parcelable
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import java.io.Serializable
-import java.lang.reflect.Type
-import java.util.concurrent.Flow
 
 @Entity(tableName = "Food")
 data class Food (

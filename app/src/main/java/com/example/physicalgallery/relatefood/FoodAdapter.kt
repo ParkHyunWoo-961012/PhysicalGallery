@@ -1,4 +1,4 @@
-package com.example.physicalgallery
+package com.example.physicalgallery.relatefood
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,12 +8,12 @@ import com.example.physicalgallery.databinding.FoodResultBinding
 class FoodAdapter(val foods: List<Food>)
     : RecyclerView.Adapter<FoodAdapter.ViewHolder>() {// This is class made for manage recyclerview of Lotto number
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType:Int):ViewHolder{
+    override fun onCreateViewHolder(parent: ViewGroup, viewType:Int): ViewHolder {
         val binding = FoodResultBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder:ViewHolder,position:Int){
+    override fun onBindViewHolder(holder: ViewHolder, position:Int){
         val foods = foods.get(position)
         holder.bind(foods) // for reperesent to recyclerview by use bind function (binding.id.text = input data )
     }
