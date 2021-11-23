@@ -12,11 +12,10 @@ class FoodResult : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_food_result)
-        val gson = Gson()
-        val type: Type = object : TypeToken<List<Food>>() {}.type
+
         val intent = getIntent()
-        var search_list = intent.getStringExtra("search result")
-        search_list = gson.fromJson(search_list,type)
+        var search_list = intent.getSerializableExtra("search result")
+
         Log.e("FoodResult","${search_list}")
     }
 }

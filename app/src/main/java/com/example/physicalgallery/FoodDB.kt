@@ -31,7 +31,7 @@ data class Food (
     @ColumnInfo(name = "totalfat") val totalfat:String?,
     @ColumnInfo(name = "transfat") val transfat:String?,
     @ColumnInfo(name = "caffein") val caffeing: String?,
-)
+):Serializable
 
 @Dao
 interface FoodInterface{

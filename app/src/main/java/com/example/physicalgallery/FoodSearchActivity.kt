@@ -34,11 +34,15 @@ class FoodSearchActivity : AppCompatActivity() {
                 CoroutineScope(Dispatchers.IO).launch {
                     var A = FoodDB.FoodDao().getItem(name)
                     if (A[0] != null){
+                        val search_result : ArrayList<Food> = arrayListOf()
+                        for(i in 0..(A.size-1)){
+                            search_result.add(A[i])
+                        }
                         var intent = Intent(this@FoodSearchActivity,FoodResult::class.java)
 
-                        //intent.putExtra("search result",A)
-                        Log.e("FoodSearchActivity","${A.toString()}")
-                        //startActivity(intent)
+                        intent.putExtra("search result",search_result)
+                        Log.e("FoodSearchActivity","${search_result}")
+                        startActivity(intent)
                     }
                 }
 
