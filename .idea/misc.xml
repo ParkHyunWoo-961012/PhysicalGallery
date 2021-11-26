@@ -19,12 +19,8 @@
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.27395833333333336" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.27395833333333336" />
         <entry key="app/src/main/res/drawable/menu_selector_color.xml" value="0.29074074074074074" />
-        <entry key="app/src/main/res/layout/activity_add_photo.xml" value="0.24375" />
-        <entry key="app/src/main/res/layout/activity_food_result.xml" value="0.11145833333333334" />
-        <entry key="app/src/main/res/layout/activity_food_search.xml" value="0.26014452473596444" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.125" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.4241549756172805" />
-        <entry key="app/src/main/res/layout/food_result.xml" value="0.24375" />
         <entry key="app/src/main/res/layout/fragment_alarm.xml" value="0.18020833333333333" />
         <entry key="app/src/main/res/layout/fragment_detail.xml" value="0.18020833333333333" />
         <entry key="app/src/main/res/layout/fragment_grid.xml" value="0.18020833333333333" />

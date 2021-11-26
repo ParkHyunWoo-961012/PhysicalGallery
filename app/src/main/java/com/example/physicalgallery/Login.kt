@@ -17,8 +17,9 @@ import com.google.firebase.auth.GoogleAuthProvider
 class Login : AppCompatActivity() {
     var auth : FirebaseAuth? = null
     var googleSignIn : GoogleSignInClient? =null
-    var GOOGLE_LOGIN_CODE = 1007
+    var GOOGLE_LOGIN_CODE = 9001
     val binding by lazy{ActivityLoginBinding.inflate(layoutInflater)}
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = FirebaseAuth.getInstance()
@@ -34,12 +35,24 @@ class Login : AppCompatActivity() {
         googleSignIn = GoogleSignIn.getClient(this,google)
     }
 
+    fun googlelogin() {
+        var GoogleIntent = googleSignIn?.signInIntent.run {
+            startActivityForResult(this, GOOGLE_LOGIN_CODE)
+        }
+    }
+
+//    fun googlelogin(){
+//        var GoogleIntent = googleSignIn?.signInIntent
+//        startActivityForResult(GoogleIntent,GOOGLE_LOGIN_CODE)
+//        }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == GOOGLE_LOGIN_CODE){
             var result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
             if(result.isSuccess){
                 var account = result.signInAccount
+                //second step
                 firebaseAuthGoogle(account)
             }
         }
@@ -48,20 +61,26 @@ class Login : AppCompatActivity() {
     fun firebaseAuthGoogle(account : GoogleSignInAccount?){
         var credential = GoogleAuthProvider.getCredential(account?.idToken,null)
         auth?.signInWithCredential(credential)
+            ?.addOnCompleteListener {
+                    task ->
+                if(task.isSuccessful){
+                    // Login
+                    moveMainPage(task.result.user)
+                }else{
+                    //Show the error messaage
+                    Toast.makeText(this,task.exception?.message,Toast.LENGTH_LONG).show()
+                }
+            }
     }
-    fun googlelogin(){
-        var GoogleIntent = googleSignIn?.signInIntent.run{
-            startActivityForResult(this,GOOGLE_LOGIN_CODE)
-        }
-    }
+
     fun signinAndSignup(){
         auth?.createUserWithEmailAndPassword(binding.emailEdittext.text.toString(),binding.passwordEdittext.text.toString())
             ?.addOnCompleteListener {
                     task ->
                 if(task.isSuccessful){
                     // Creating a user account
-                    moveMainPage(auth?.currentUser)
-                }else if(!task.exception?.message.isNullOrEmpty()){
+                    moveMainPage(task.result.user)
+                }else if(task.exception?.message.isNullOrEmpty()){
                     // Show the error message
                     Toast.makeText(this,task.exception?.message,Toast.LENGTH_LONG).show()
                 }else{
@@ -70,22 +89,25 @@ class Login : AppCompatActivity() {
                 }
             }
     }
+
     fun signinEmail(){
         auth?.signInWithEmailAndPassword(binding.emailEdittext.text.toString(),binding.passwordEdittext.text.toString())
             ?.addOnCompleteListener {
                     task ->
                 if(task.isSuccessful){
                     // Login
-                    moveMainPage(auth?.currentUser)
+                    moveMainPage(task.result.user)
                 }else{
                     //Show the error messaage
                     Toast.makeText(this,task.exception?.message,Toast.LENGTH_LONG).show()
                 }
             }
     }
+
     fun moveMainPage(user:FirebaseUser?){
         if(user != null){
             startActivity(Intent(this,MainActivity::class.java))
+
         }
     }
 
