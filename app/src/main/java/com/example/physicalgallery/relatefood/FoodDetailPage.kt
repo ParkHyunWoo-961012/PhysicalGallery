@@ -17,11 +17,11 @@ class FoodDetailPage : AppCompatActivity() {
         binding.smallClassifier.text = detail.small_classifier
         binding.oneTimeProvider.text = detail.provide_per_time.toString() + detail.provide_unit.toString()
         binding.calories.text = detail.calories
-        detail.carbo
-        detail.fiber
-        binding.protein.text = detail.protein
         binding.totalFat.text = detail.totalfat
-        detail.fat
+        binding.transfat.text = detail.transfat
+        binding.carbo.text = detail.carbo
+        binding.fiber.text = detail.fiber
+        binding.protein.text = detail.protein
 
     }
 }
