@@ -3,11 +3,11 @@ package com.example.physicalgallery.navigation
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.physicalgallery.R
 import com.google.firebase.storage.FirebaseStorage
 import java.text.SimpleDateFormat
@@ -34,7 +34,8 @@ class AddPhotoActivity : AppCompatActivity() {
             contentUpload()
         }
 
-    }override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode==PICK_IMAGE_FROM_ALBUM){
             if(requestCode== Activity.RESULT_OK){
@@ -42,6 +43,7 @@ class AddPhotoActivity : AppCompatActivity() {
                 photoUri = data?.data
                 val image = findViewById<ImageView>(R.id.addphoto_image)
                 image.setImageURI(photoUri)
+                finish()
             }else{
                 //exit the addphotoactivity if you leave the album sithout selecting it
                 finish()
