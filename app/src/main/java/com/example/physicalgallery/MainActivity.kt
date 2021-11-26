@@ -2,16 +2,14 @@ package com.example.physicalgallery
 
 import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.physicalgallery.databinding.ActivityMainBinding
 import com.example.physicalgallery.navigation.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import java.util.jar.Manifest
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -24,9 +22,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 return true
             }
             R.id.account -> {
-                var userFrag = UserFrag()
-                supportFragmentManager.beginTransaction().replace(R.id.main_contents, userFrag)
-                    .commit()
+                if(ContextCompat.checkSelfPermission(this,android.Manifest.permission.READ_EXTERNAL_STORAGE)==PackageManager.PERMISSION_GRANTED){
+                    startActivity(Intent(this, UserFrag::class.java))
+                }
                 return true
             }
             R.id.upload -> {

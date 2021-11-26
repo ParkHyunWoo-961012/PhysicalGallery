@@ -1,11 +1,10 @@
 package com.example.physicalgallery
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.physicalgallery.databinding.ActivityLoginBinding
-import com.example.physicalgallery.relatefood.FoodSearchActivity
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -30,10 +29,6 @@ class Login : AppCompatActivity() {
         binding.googleSignButton.setOnClickListener{
             googlelogin()
         }
-        binding.foodsearch.setOnClickListener{
-            val intent = Intent(this, FoodSearchActivity::class.java)
-            startActivity(intent)
-        }
         var google = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken("361991051449-d13a6j16rk7j85o6pdb8jucub35kqgk5.apps.googleusercontent.com").requestEmail().build()
         googleSignIn = GoogleSignIn.getClient(this,google)
@@ -49,6 +44,7 @@ class Login : AppCompatActivity() {
             }
         }
     }
+
     fun firebaseAuthGoogle(account : GoogleSignInAccount?){
         var credential = GoogleAuthProvider.getCredential(account?.idToken,null)
         auth?.signInWithCredential(credential)
