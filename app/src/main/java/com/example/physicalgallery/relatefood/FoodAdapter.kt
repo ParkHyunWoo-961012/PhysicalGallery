@@ -1,6 +1,5 @@
 package com.example.physicalgallery.relatefood
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,10 +39,6 @@ class FoodAdapter(val foods : MutableList<Food>)
             {
                 binding.rootclick.setOnClickListener {
                     mListener?.onItemClick(itemView,foods, pos)
-                    Log.e("1","${foods.big_classifier}")
-                    Log.e("2","${foods.small_classifier}")
-                    Log.e("3","${foods.totalfat}")
-
                 }
             }
 

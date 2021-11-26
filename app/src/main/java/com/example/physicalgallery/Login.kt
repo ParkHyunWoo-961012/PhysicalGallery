@@ -3,13 +3,10 @@ package com.example.physicalgallery
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.physicalgallery.databinding.ActivityLoginBinding
-import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -36,6 +33,7 @@ class Login : AppCompatActivity() {
         }
         var google = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken("710147034035-a0as1i56gab0d8s3ugom87i7namo1aqg.apps.googleusercontent.com").requestEmail().build()
+
         googleSignIn = GoogleSignIn.getClient(this,google)
     }
 

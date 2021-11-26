@@ -8,9 +8,9 @@
     android:background = "@drawable/backg"
     tools:context=".navigation.AddPhotoActivity">
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/my_toolbar"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="35dp">
+        android:layout_height="60dp">
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -19,7 +19,7 @@
     <LinearLayout
         android:id="@+id/toolbar_division"
         android:background="@color/purple_200"
-        android:layout_below="@+id/my_toolbar"
+        android:layout_below="@+id/toolbar"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="1dp">
@@ -31,13 +31,13 @@
         android:layout_below="@+id/toolbar_division"
         android:layout_width="100dp"
         android:layout_height="100dp"/>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/editText"
         android:layout_below="@id/toolbar_division"
         android:layout_toRightOf="@id/addphoto_image"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
+        android:layout_height="wrap_content" />
         <EditText
             android:gravity="top"
             android:id="@+id/addphoto_edit_explain"
@@ -51,7 +51,6 @@
         android:layout_below="@id/editText"
         android:layout_toRightOf="@+id/addphoto_image"
         android:text="Photo Upload"
-        android:background = "@drawable/emptybutton"
-         />
+        android:background = "@drawable/emptybutton" />
 
 </RelativeLayout>

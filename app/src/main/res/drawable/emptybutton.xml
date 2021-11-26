@@ -5,7 +5,7 @@
 
     <stroke
         android:width="2dp"
-        android:color="#111" /> //선색
+        android:color="#00ff" /> //선색
     <corners
         android:topLeftRadius="2dp"
         android:topRightRadius="2dp"

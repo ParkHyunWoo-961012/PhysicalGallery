@@ -2,7 +2,6 @@ package com.example.physicalgallery.relatefood
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,7 +28,6 @@ class FoodResult : AppCompatActivity() {
 
         })
         //검색할때 김밥용 햄 검색하면 하나만 나옴 -> 다관찰
-        Log.e("FoodResult","${search_list}")
     }
 }
 
