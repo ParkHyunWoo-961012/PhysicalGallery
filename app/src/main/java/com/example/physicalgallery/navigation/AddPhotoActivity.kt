@@ -41,10 +41,10 @@ class AddPhotoActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode==PICK_IMAGE_FROM_ALBUM){
             Log.e("123123","123123123123123123123123123")
-            //this is path to the selected image
             photoUri = data?.data
             Log.e("123123","${photoUri}}")
             binding.addphotoImage.setImageURI(photoUri)
+
         }
     }
     fun contentUpload(){
