@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background = "@drawable/backg"
     tools:context=".navigation.AddPhotoActivity">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/my_toolbar"
@@ -50,6 +51,7 @@
         android:layout_below="@id/editText"
         android:layout_toRightOf="@+id/addphoto_image"
         android:text="Photo Upload"
-        android:theme="@style/ButtonStyle" />
+        android:background = "@drawable/emptybutton"
+         />
 
 </RelativeLayout>

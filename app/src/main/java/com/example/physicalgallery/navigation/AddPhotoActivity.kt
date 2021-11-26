@@ -27,6 +27,7 @@ class AddPhotoActivity : AppCompatActivity() {
         photoPickerIntent.setAction(Intent.ACTION_PICK)
         photoPickerIntent.type = "image/*"
         photoPickerIntent.putExtra(Intent.EXTRA_MIME_TYPES,"image/*")
+
         startActivityForResult(photoPickerIntent,PICK_IMAGE_FROM_ALBUM)
         //add image upload event
 
@@ -40,13 +41,10 @@ class AddPhotoActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode==PICK_IMAGE_FROM_ALBUM){
             Log.e("123123","123123123123123123123123123")
-                //this is path to the selected image
-                photoUri = data?.data
-                Log.e("123123","${photoUri}}")
-
-                binding.addphotoImage.setImageURI(photoUri)
-
-
+            //this is path to the selected image
+            photoUri = data?.data
+            Log.e("123123","${photoUri}}")
+            binding.addphotoImage.setImageURI(photoUri)
         }
     }
     fun contentUpload(){
@@ -56,7 +54,7 @@ class AddPhotoActivity : AppCompatActivity() {
         var upload_image = storageRef?.putFile(photoUri!!)
 
         upload_image?.addOnFailureListener(){
-            Toast.makeText(this,"이미지 업로드 실",Toast.LENGTH_LONG).show()
+            Toast.makeText(this,"이미지 업로드 실패",Toast.LENGTH_LONG).show()
         }
 
         upload_image?.addOnSuccessListener(){

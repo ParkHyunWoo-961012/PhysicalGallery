@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background = "@drawable/backg"
     tools:context=".Login">
 
     <ImageView
@@ -62,7 +63,7 @@
             android:layout_marginBottom="40dp"
             android:layout_weight="1"
             android:text="@string/common_signin_button_text"
-            android:theme="@style/ButtonStyle" />
+            android:background = "@drawable/emptybutton" />
 
         <Button
             android:id="@+id/google_sign_button"

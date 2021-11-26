@@ -6,12 +6,13 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
     android:layout_weight="1">
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scrollbars="vertical"
+        android:foregroundGravity="center_horizontal"
         tools:listitem="@layout/food_recyclerview"
         tools:ignore="MissingConstraints" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

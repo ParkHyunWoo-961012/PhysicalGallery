@@ -19,7 +19,7 @@ class FoodDetailPage : AppCompatActivity() {
         binding.calories.text = detail.calories
         detail.carbo
         detail.fiber
-        detail.protein
+        binding.protein.text = detail.protein
         binding.totalFat.text = detail.totalfat
         detail.fat
 
