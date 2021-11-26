@@ -12,7 +12,7 @@ import com.example.physicalgallery.navigation.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
-
+    val binding by lazy{ ActivityMainBinding.inflate(layoutInflater)}
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.home -> {
