@@ -2,6 +2,7 @@ package com.example.physicalgallery.relatefood
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.physicalgallery.databinding.ActivityFoodSearchBinding
@@ -31,7 +32,7 @@ class FoodSearchActivity : AppCompatActivity() {
                         for(i in 0..(A.size-1)){
                             search_result.add(A[i])
                         }
-
+                        Log.e("Check Check","${search_result.size}")
                         var intent = Intent(this@FoodSearchActivity, FoodResult::class.java)
                         intent.putExtra("search result",search_result)
                         startActivity(intent)

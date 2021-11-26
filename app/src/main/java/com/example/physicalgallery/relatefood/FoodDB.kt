@@ -37,7 +37,7 @@ interface FoodInterface{
     @Insert
     fun addFoodDb(food : Food)
 
-    @Query("Select * From Food Where food_name Like '%'||:name||'%'")
+    @Query("Select * From Food Where food_name Like :name||'%'")
     fun getItem(name:String?) : List<Food>
 
 

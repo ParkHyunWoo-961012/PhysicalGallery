@@ -12,9 +12,16 @@ class FoodDetailPage : AppCompatActivity() {
 
         val intent = getIntent()
         val detail = intent.getSerializableExtra("detail") as Food
-
+        binding.name.text = detail.food_name
         binding.bigClassifier.text = detail.big_classifier
         binding.smallClassifier.text = detail.small_classifier
+        binding.oneTimeProvider.text = detail.provide_per_time.toString() + detail.provide_unit.toString()
+        binding.calories.text = detail.calories
+        detail.carbo
+        detail.fiber
+        detail.protein
+        binding.totalFat.text = detail.totalfat
+        detail.fat
 
     }
 }
