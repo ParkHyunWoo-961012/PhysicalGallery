@@ -28,7 +28,7 @@ class AddPhotoActivity : AppCompatActivity() {
     var storage: FirebaseStorage? = null
     var photoUri: Uri? = null
     var auth: FirebaseAuth? = null
-    lateinit var currentPhotoPath: String
+    var currentPhotoPath: String = ""
     var firestore: FirebaseFirestore? = null
     val binding by lazy { ActivityAddPhotoBinding.inflate(layoutInflater) }
 
@@ -53,7 +53,9 @@ class AddPhotoActivity : AppCompatActivity() {
 
     private fun dispatchTakePictureIntent() {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { photoPickerIntent ->
+            Log.e("11","1111")
             if (photoPickerIntent.resolveActivity(this.packageManager) != null) {
+                Log.e("1","$currentPhotoPath?")
                 // 찍은 사진을 그림파일로 만들기
                 val photoFile: File? =
                     try {
@@ -62,7 +64,7 @@ class AddPhotoActivity : AppCompatActivity() {
                         Log.e("11", "pictures by taken camera is errored")
                         null
                     }
-
+                Log.e("2","$currentPhotoPath?")
                 photoFile?.also {
                     val photoURI: Uri = FileProvider.getUriForFile(
                         this,
@@ -78,6 +80,9 @@ class AddPhotoActivity : AppCompatActivity() {
 
             var chooserIntent = Intent.createChooser(intent,"Pick source")
             chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(photoPickerIntent))
+
+            Log.e("StartActivity0","${arrayOf(photoUri)}")
+            Log.e("StartActivity","${arrayOf(photoPickerIntent)}")
 
             startActivityForResult(chooserIntent, PICK_IMAGE_FROM_ALBUM)
         }
@@ -110,12 +115,15 @@ class AddPhotoActivity : AppCompatActivity() {
                 }
             }
             else {
+                Log.e("123123","$currentPhotoPath?")
                 val file = File(currentPhotoPath)
                 val selectedUri = Uri.fromFile(file)
                 Log.e("Take Picture", "${selectedUri}")
                 try {
                     selectedUri?.let {
+
                         val decode = ImageDecoder.createSource(this.contentResolver, selectedUri)
+                        Log.e("Take Picture123123", "${decode}")
                         val bitmap = ImageDecoder.decodeBitmap(decode)
                         Log.e("Take Picture123123", "${bitmap}")
                         binding.addphotoImage.setImageBitmap(bitmap)
