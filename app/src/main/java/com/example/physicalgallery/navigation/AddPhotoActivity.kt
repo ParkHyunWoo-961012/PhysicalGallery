@@ -59,12 +59,13 @@ class AddPhotoActivity : AppCompatActivity() {
                 // 찍은 사진을 그림파일로 만들기
                 val photoFile: File? =
                     try {
+                        Log.e("2","11")
                         createImageFile()
                     } catch (ex: IOException) {
                         Log.e("11", "pictures by taken camera is errored")
                         null
                     }
-                Log.e("2","$currentPhotoPath?")
+
                 photoFile?.also {
                     val photoURI: Uri = FileProvider.getUriForFile(
                         this,
@@ -115,13 +116,11 @@ class AddPhotoActivity : AppCompatActivity() {
                 }
             }
             else {
-                Log.e("123123","$currentPhotoPath?")
                 val file = File(currentPhotoPath)
                 val selectedUri = Uri.fromFile(file)
                 Log.e("Take Picture", "${selectedUri}")
                 try {
                     selectedUri?.let {
-
                         val decode = ImageDecoder.createSource(this.contentResolver, selectedUri)
                         Log.e("Take Picture123123", "${decode}")
                         val bitmap = ImageDecoder.decodeBitmap(decode)
