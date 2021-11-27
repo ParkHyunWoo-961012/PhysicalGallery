@@ -28,6 +28,8 @@ class Login : AppCompatActivity() {
         binding.emailLoginButton.setOnClickListener {
             signinAndSignup()
         }
+
+        // for login with google id
         binding.googleSignButton.setOnClickListener{
             googlelogin()
         }

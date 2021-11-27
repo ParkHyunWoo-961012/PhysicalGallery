@@ -2,14 +2,14 @@ package com.example.physicalgallery.navigation
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
-import android.widget.Button
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.physicalgallery.R
+import androidx.core.content.FileProvider
 import com.example.physicalgallery.databinding.ActivityAddPhotoBinding
 import com.example.physicalgallery.navigation.model.ContentDTO
 import com.google.android.gms.tasks.Task
@@ -17,16 +17,21 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
+import java.io.File
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
 class AddPhotoActivity : AppCompatActivity() {
     var PICK_IMAGE_FROM_ALBUM = 0
-    var storage : FirebaseStorage? = null
-    var photoUri : Uri? = null
-    var auth : FirebaseAuth? = null
-    var firestore : FirebaseFirestore? = null
-    val binding by lazy{ActivityAddPhotoBinding.inflate(layoutInflater)}
+    var REQUEST_TAKE_PHOTO =0
+    var storage: FirebaseStorage? = null
+    var photoUri: Uri? = null
+    var auth: FirebaseAuth? = null
+    lateinit var currentPhotoPath: String
+    var firestore: FirebaseFirestore? = null
+    val binding by lazy { ActivityAddPhotoBinding.inflate(layoutInflater) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -36,37 +41,89 @@ class AddPhotoActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
 
-        //Open the album
-        var photoPickerIntent = Intent()
-        photoPickerIntent.setAction(Intent.ACTION_PICK)
-        photoPickerIntent.type = "image/*"
-        photoPickerIntent.putExtra(Intent.EXTRA_MIME_TYPES,"image/*")
-        startActivityForResult(photoPickerIntent,PICK_IMAGE_FROM_ALBUM)
+        dispatchTakePictureIntent()
 
         //add image upload event
         binding.addphotoBtnUpload.setOnClickListener {
             contentUpload()
-            Log.e("test","${photoUri}")
+            Log.e("test", "${photoUri}")
         }
 
     }
+
+    private fun dispatchTakePictureIntent() {
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { photoPickerIntent ->
+            if (photoPickerIntent.resolveActivity(this.packageManager) != null) {
+                // 찍은 사진을 그림파일로 만들기
+                val photoFile: File? =
+                    try {
+                        createImageFile()
+                    } catch (ex: IOException) {
+                        Log.e("11", "pictures by taken camera is errored")
+                        null
+                    }
+
+                photoFile?.also {
+                    val photoURI: Uri = FileProvider.getUriForFile(
+                        this,
+                        "com.example.physicalgallery.fileprovider",
+                        it
+                    )
+                    photoPickerIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                }
+            }
+            var intent = Intent()
+            intent.setAction(Intent.ACTION_GET_CONTENT)
+            intent.type = "image/*"
+
+            var chooserIntent = Intent.createChooser(intent,"Pick source")
+            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(photoPickerIntent))
+
+            startActivityForResult(chooserIntent, PICK_IMAGE_FROM_ALBUM)
+        }
+    }
+
+    @Throws(IOException::class)
+    private fun createImageFile(): File {
+        // Create an image file name
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        //val storageDir1: File = "/sdcard/Android/data/com.example.physicalgallery/files/Pictures"
+        val storageDir: File = getExternalFilesDir("/sdcard/Android/data/com.example.physicalgallery/files/Pictures\" ")!!
+        return File.createTempFile(
+            "JPEG_${timeStamp}_", /* prefix */
+            ".jpg", /* suffix */
+            storageDir /* directory */
+        ).apply {
+            // Save a file: path for use with ACTION_VIEW intents
+            currentPhotoPath = absolutePath
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode==PICK_IMAGE_FROM_ALBUM){
-            Log.e("test","test1")
-//            if(requestCode== Activity.RESULT_OK){
-            //this is path to the selected image
-
             photoUri = data?.data
-            Log.e("test","RESULT_OK!")
-            binding.addphotoImage.setImageURI(photoUri)
-            Log.e("test","${photoUri}")
-
-//            }else{
-//                //exit the addphotoactivity if you leave the album sithout selecting it
-//                Log.e("test","RESULT_NOT OK!")
-//                finish()
-//            }
+            Log.e("111","${photoUri}")
+            if (photoUri != null) {
+                photoUri?.let { uri ->
+                    binding.addphotoImage.setImageURI(photoUri)
+                }
+            }
+            else {
+                val file = File(currentPhotoPath)
+                val selectedUri = Uri.fromFile(file)
+                Log.e("Take Picture", "${selectedUri}")
+                try {
+                    selectedUri?.let {
+                        val decode = ImageDecoder.createSource(this.contentResolver, selectedUri)
+                        val bitmap = ImageDecoder.decodeBitmap(decode)
+                        Log.e("Take Picture123123", "${bitmap}")
+                        binding.addphotoImage.setImageBitmap(bitmap)
+                    }
+                } catch (e: java.lang.Exception) {
+                    e.printStackTrace()
+                }
+            }
         }
     }
     fun contentUpload(){
@@ -110,6 +167,7 @@ class AddPhotoActivity : AppCompatActivity() {
             Log.e("test", "data upload success")
 
         }
+
         storageRef?.putFile(photoUri!!)?.addOnFailureListener(){
             Toast.makeText(this,"failure image upload",Toast.LENGTH_LONG).show()
             Log.e("test", "data upload fail")
