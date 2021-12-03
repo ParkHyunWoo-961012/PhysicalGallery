@@ -25,9 +25,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 return true
             }
             R.id.account -> {
-                if(ContextCompat.checkSelfPermission(this,android.Manifest.permission.READ_EXTERNAL_STORAGE)==PackageManager.PERMISSION_GRANTED){
-                    startActivity(Intent(this, UserFrag::class.java))
-                }
+                var userFrag = UserFrag()
+                supportFragmentManager.beginTransaction().replace(R.id.main_contents, userFrag)
+                    .commit()
                 return true
             }
             R.id.upload -> {

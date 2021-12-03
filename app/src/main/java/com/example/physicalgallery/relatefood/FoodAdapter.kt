@@ -49,4 +49,5 @@ class FoodAdapter(val foods : MutableList<Food>)
         return foods.size
     }
 
+
 }

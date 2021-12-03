@@ -10,6 +10,7 @@ import com.example.physicalgallery.databinding.ContentDetailBinding
 import com.example.physicalgallery.navigation.model.ContentDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 
 class DetailAdapter : RecyclerView.Adapter<DetailAdapter.ViewHolder>() {
     var firestore : FirebaseFirestore? = FirebaseFirestore.getInstance()
@@ -19,7 +20,8 @@ class DetailAdapter : RecyclerView.Adapter<DetailAdapter.ViewHolder>() {
 
 
     init{
-        firestore?.collection("images")?.orderBy("timestamp")?.addSnapshotListener{
+        firestore?.collection("images")?.orderBy("timestamp", Query.Direction.DESCENDING)?.addSnapshotListener{
+            //최신글을 맨위에 보여주기위해서 DESCENDING 추가함
             querySnapshot, firebaseFirestoreException ->
             contents.clear()
             contentsUidList.clear()
