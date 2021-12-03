@@ -2,9 +2,10 @@ package com.example.physicalgallery.navigation
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.ImageDecoder
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
@@ -22,9 +23,11 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
+
+
+
 class AddPhotoActivity : AppCompatActivity() {
     var PICK_IMAGE_FROM_ALBUM = 0
-    var REQUEST_TAKE_PHOTO =0
     var storage: FirebaseStorage? = null
     var photoUri: Uri? = null
     var auth: FirebaseAuth? = null
@@ -35,15 +38,18 @@ class AddPhotoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
+        Log.e("Take Picture", "${Build.VERSION.SDK_INT}")
         //Initiate
         storage = FirebaseStorage.getInstance()
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
 
-        dispatchTakePictureIntent()
 
-        //add image upload event
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, PICK_IMAGE_FROM_ALBUM)
+
+
         binding.addphotoBtnUpload.setOnClickListener {
             contentUpload()
             Log.e("test", "${photoUri}")
@@ -52,40 +58,41 @@ class AddPhotoActivity : AppCompatActivity() {
     }
 
     private fun dispatchTakePictureIntent() {
-        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { photoPickerIntent ->
-            Log.e("11","1111")
-            if (photoPickerIntent.resolveActivity(this.packageManager) != null) {
-                Log.e("1","$currentPhotoPath?")
-                // 찍은 사진을 그림파일로 만들기
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            if (takePictureIntent.resolveActivity(this.packageManager) != null) {
+                Log.e("4","123123")
                 val photoFile: File? =
                     try {
-                        Log.e("2","11")
                         createImageFile()
                     } catch (ex: IOException) {
-                        Log.e("11", "pictures by taken camera is errored")
+                        Log.d("TAG", "그림파일 만드는도중 에러생김")
                         null
                     }
 
-                photoFile?.also {
-                    val photoURI: Uri = FileProvider.getUriForFile(
-                        this,
-                        "com.example.physicalgallery.fileprovider",
-                        it
-                    )
-                    photoPickerIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                if (Build.VERSION.SDK_INT < 24) {
+                    if(photoFile != null){
+                        val photoURI = Uri.fromFile(photoFile)
+                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                    }
                 }
+                else{
+                    // 그림파일을 성공적으로 만들었다면 startActivityForResult로 보내기
+                    photoFile?.also {
+                        val photoURI: Uri = FileProvider.getUriForFile(
+                            this, "com.example.cameraonly.fileprovider", it
+                        )
+                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                    }
+                }
+
+                val intent = Intent(Intent.ACTION_PICK)
+                intent.type = "image/*"
+                intent.action = Intent.ACTION_GET_CONTENT
+
+                val chooserIntent = Intent.createChooser(intent, "-")
+                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(takePictureIntent))
+                startActivityForResult(chooserIntent, PICK_IMAGE_FROM_ALBUM)
             }
-            var intent = Intent()
-            intent.setAction(Intent.ACTION_GET_CONTENT)
-            intent.type = "image/*"
-
-            var chooserIntent = Intent.createChooser(intent,"Pick source")
-            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(photoPickerIntent))
-
-            Log.e("StartActivity0","${arrayOf(photoUri)}")
-            Log.e("StartActivity","${arrayOf(photoPickerIntent)}")
-
-            startActivityForResult(chooserIntent, PICK_IMAGE_FROM_ALBUM)
         }
     }
 
@@ -94,7 +101,9 @@ class AddPhotoActivity : AppCompatActivity() {
         // Create an image file name
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         //val storageDir1: File = "/sdcard/Android/data/com.example.physicalgallery/files/Pictures"
-        val storageDir: File = getExternalFilesDir("/sdcard/Android/data/com.example.physicalgallery/files/Pictures\" ")!!
+        val storageDir: File = getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
+        Log.e("!123123","${Environment.DIRECTORY_PICTURES}")
+            //getExternalFilesDir("/sdcardPICK_IMAGE_FROM_ALBUM /Android/data/com.example.physicalgallery/files/Pictures\" ")!!
         return File.createTempFile(
             "JPEG_${timeStamp}_", /* prefix */
             ".jpg", /* suffix */
@@ -108,31 +117,20 @@ class AddPhotoActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode==PICK_IMAGE_FROM_ALBUM){
+            Log.e("123123","123123123123123123123123123")
             photoUri = data?.data
-            Log.e("111","${photoUri}")
-            if (photoUri != null) {
-                photoUri?.let { uri ->
-                    binding.addphotoImage.setImageURI(photoUri)
-                }
-            }
-            else {
-                val file = File(currentPhotoPath)
-                val selectedUri = Uri.fromFile(file)
-                Log.e("Take Picture", "${selectedUri}")
-                try {
-                    selectedUri?.let {
-                        val decode = ImageDecoder.createSource(this.contentResolver, selectedUri)
-                        Log.e("Take Picture123123", "${decode}")
-                        val bitmap = ImageDecoder.decodeBitmap(decode)
-                        Log.e("Take Picture123123", "${bitmap}")
-                        binding.addphotoImage.setImageBitmap(bitmap)
-                    }
-                } catch (e: java.lang.Exception) {
-                    e.printStackTrace()
-                }
-            }
+            Log.e("123123","${photoUri}}")
+            binding.addphotoImage.setImageURI(photoUri)
+
         }
     }
+
+    private fun openGalleryForImage() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+    }
+
     fun contentUpload(){
         //make filename
         var timestamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
@@ -141,72 +139,41 @@ class AddPhotoActivity : AppCompatActivity() {
 
         //promise method
         var upload_image = storageRef?.putFile(photoUri!!)
-        //upload_image?.continueWithTask { task:Task<UploadTask.TaskSnapshot> ->
-        //  return@continueWithTask storageRef?.downloadUrl
 
-        upload_image?.continueWithTask { task:Task<UploadTask.TaskSnapshot> ->
+        upload_image?.continueWithTask{ task: Task<UploadTask.TaskSnapshot> ->
             return@continueWithTask storageRef?.downloadUrl
-        }?.addOnSuccessListener(){ uri ->
-            var contentDTO = ContentDTO()
+        }?.addOnSuccessListener{
+            var content = ContentDTO()
 
-            // Insert downloadUrl of image
-            contentDTO.imageUrl = uri.toString()
+            content.imageUrl = it.toString()
 
-            // Insert uid of user
-            contentDTO.uid = auth?.currentUser?.uid
+            content.uid = auth?.currentUser?.uid
+            content.userId = auth?.currentUser?.email
+            content.explain = binding.addphotoEditExplain.text.toString()
+            content.timestamp = System.currentTimeMillis()
 
-            // Insert userId
-            contentDTO.userId = auth?.currentUser?.email
-
-            // Insert explain of content
-            contentDTO.explain = binding.addphotoEditExplain.text.toString()
-
-            // Insert timestamp
-            contentDTO.timestamp = System.currentTimeMillis()
-
-            firestore?.collection("images")?.document()?.set(contentDTO)
-
-            Toast.makeText(this,"image upload success",Toast.LENGTH_LONG).show()
-
+            firestore?.collection("images")?.document()?.set(content)
             setResult(Activity.RESULT_OK)
-
+            Toast.makeText(this,"업로드 성공했습니다",Toast.LENGTH_LONG).show()
             finish()
-            Log.e("test", "data upload success")
-
+        }?.addOnFailureListener{
+            Toast.makeText(this,"업로드 실했습니다",Toast.LENGTH_LONG).show()
         }
-
-        storageRef?.putFile(photoUri!!)?.addOnFailureListener(){
-            Toast.makeText(this,"failure image upload",Toast.LENGTH_LONG).show()
-            Log.e("test", "data upload fail")
-        }
-
-//        //callback method
-//        storageRef?.putFile(photoUri!!)?.addOnSuccessListener {
-//            //(toast erase)Toast.makeText(this,getString(R.string.upload_success),Toast.LENGTH_LONG).show()
-//         storageRef.downloadUrl.addOnSuccessListener {
-//             uri ->
-//             var contentDTO = contentDTO()
+//        upload_image?.addOnSuccessListener{
+//            storageRef?.downloadUrl?.addOnSuccessListener {
+//                var content = ContentDTO()
+//패
+//                content.imageUrl = it.toString()
 //
-//             // Insert downloadUrl of image
-//             contentDTO.imageUrl = uri.toString()
+//                content.uid = auth?.currentUser?.uid
+//                content.userId = auth?.currentUser?.email
+//                content.explain = binding.addphotoEditExplain.text.toString()
+//                content.timestamp = System.currentTimeMillis()
 //
-//             // Insert uid of user
-//             contentDTO.uid = auth?.currentUser?.uid
+//                firestore?.collection("images")?.document()?.set(content)
+//                setResult(Activity.RESULT_OK)
+//                finish()
 //
-//             // Insert userId
-//             contentDTO.userID = auth?.currentUser?.email
-//
-//             // Insert explain of content
-//             contentDTO.explain = addphoto_edit_explain.text.toString()
-//
-//             // Insert timestamp
-//             contentDTO.timestamp = System.currentTimeMillis()
-//
-//             firestore?.collection("images")?.document()?.set(contentDTO)
-//
-//             setResult(Activity.RESULT_OK)
-//
-//             finish()
 //            }
 //        }
     }

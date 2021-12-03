@@ -14,7 +14,7 @@
         android:layout_marginTop="100dp"
         android:layout_marginEnd="100dp"
         android:background="@drawable/emptybutton"
-        android:text="Go to Search Actvitiy"
+        android:text="Go to Food Search Actvitiy"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

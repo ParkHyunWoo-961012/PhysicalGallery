@@ -18,7 +18,7 @@ class FoodDetailPage : AppCompatActivity() {
         binding.smallClassifier.text = detail.small_classifier
         binding.oneTimeProvider.text = detail.provide_per_time.toString() + detail.provide_unit.toString()
         binding.calories.text = detail.calories.toString()
-        binding.totalFat.text = detail.totalfat.toString()
+        binding.totalFat.text = detail.fat.toString()
         binding.transfat.text = detail.transfat.toString()
         binding.carbo.text = detail.carbo.toString()
         binding.fiber.text = detail.fiber.toString()

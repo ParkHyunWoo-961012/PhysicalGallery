@@ -4,11 +4,11 @@
     <solid android:color="#00ff0000" /> //배경색
 
     <stroke
-        android:width="2dp"
+        android:width="5dp"
         android:color="#00ff" /> //선색
     <corners
-        android:topLeftRadius="2dp"
-        android:topRightRadius="2dp"
-        android:bottomLeftRadius="2dp"
-        android:bottomRightRadius="2dp"  />
+        android:topLeftRadius="5dp"
+        android:topRightRadius="5dp"
+        android:bottomLeftRadius="5dp"
+        android:bottomRightRadius="5dp"  />
 </shape>
