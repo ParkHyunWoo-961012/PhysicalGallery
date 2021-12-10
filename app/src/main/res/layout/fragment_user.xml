@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:background = "@drawable/backg"
+    android:background="@drawable/backg"
     android:layout_height="match_parent">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -84,18 +85,11 @@
         </LinearLayout>
 
     </RelativeLayout>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/userRecyclerview"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="3"
+        tools:listitem="@layout/tests"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
-    <Button
-        android:id="@+id/foodsearch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginBottom="0dp"
-        android:background="@drawable/emptybutton"
-        android:text="Go to Food Search Actvitiy" />
+        android:layout_height="match_parent" />
 </LinearLayout>

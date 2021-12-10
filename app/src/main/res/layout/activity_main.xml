@@ -17,10 +17,19 @@
             android:layout_height="match_parent">
 
             <ImageView
+                android:id="@+id/Title"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:foregroundGravity="center"
                 android:src="@drawable/appmenu"></ImageView>
+
+            <Button
+                android:id="@+id/alarm"
+                android:layout_width="63dp"
+                android:layout_height="31dp"
+                android:layout_centerVertical="true"
+                android:layout_alignRight="@+id/Title"
+                android:background="@drawable/alarm" />
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 

@@ -41,16 +41,17 @@ class DetailAdapter : RecyclerView.Adapter<DetailAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: DetailAdapter.ViewHolder, position: Int) {
-        val cot = contents.get(position)
-        holder.bind(cot)
+        //val cot = contents.get(position)
+        holder.bind()
     }
 
     inner class ViewHolder(val binding: ContentDetailBinding): RecyclerView.ViewHolder(binding.root){
         var view : View = binding.root
-        fun bind(foods: ContentDTO){
+        fun bind(){
             val pos = adapterPosition
             //유저 아이디 보여주기위해서 -> 나중에 닉네임컬럼 만들어서 해보
-            binding.userProfileText.text = contents!![pos].userId
+            val arrayId = contents!![pos].userId.toString().split("@")
+            binding.userProfileText.text = arrayId[0]
             //유저가 올린 사진 보여주기위해서
             Glide.with(itemView).load(contents!![pos].imageUrl).into(binding.detailContentImage)
             //유저가 쓴글 보여주기
@@ -78,9 +79,9 @@ class DetailAdapter : RecyclerView.Adapter<DetailAdapter.ViewHolder>() {
     }
 
     fun favoriteCilck(position:Int){
-        var tsDoc = firestore?.collection("images")?.document(contentsUidList[position])
+        var favor = firestore?.collection("images")?.document(contentsUidList[position])
         firestore?.runTransaction{
-            var content = it.get(tsDoc!!).toObject(ContentDTO::class.java)
+            var content = it.get(favor!!).toObject(ContentDTO::class.java)
 
             if (content!!.favorites.containsKey(uid)){//좋아요 눌린상태 에서 다시 누르는 액션 때문에
                 content.favoriteCount = content?.favoriteCount-1
@@ -90,7 +91,7 @@ class DetailAdapter : RecyclerView.Adapter<DetailAdapter.ViewHolder>() {
                 content.favoriteCount = content?.favoriteCount+1
                 content.favorites[uid!!] = true
             }
-            it.set(tsDoc,content)
+            it.set(favor,content)
         }
     }
 }

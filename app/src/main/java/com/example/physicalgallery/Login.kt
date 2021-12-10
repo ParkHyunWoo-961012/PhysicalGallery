@@ -35,7 +35,6 @@ class Login : AppCompatActivity() {
         }
         var google = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken("710147034035-a0as1i56gab0d8s3ugom87i7namo1aqg.apps.googleusercontent.com").requestEmail().build()
-
         googleSignIn = GoogleSignIn.getClient(this,google)
     }
 
@@ -66,7 +65,7 @@ class Login : AppCompatActivity() {
                     task ->
                 if(task.isSuccessful){
                     // Login
-                    moveMainPage(task.result.user)
+                    moveSelectPage(task.result.user)
                 }else{//Show the error message
                     Toast.makeText(this,task.exception?.message,Toast.LENGTH_LONG).show()
                 }
@@ -79,7 +78,7 @@ class Login : AppCompatActivity() {
                     task ->
                 if(task.isSuccessful){
                     // Creating a user account
-                    moveMainPage(task.result.user)
+                    moveSelectPage(task.result.user)
                 }else if(task.exception?.message.isNullOrEmpty()){
                     // Show the error message
                     Toast.makeText(this,task.exception?.message,Toast.LENGTH_LONG).show()
@@ -96,7 +95,7 @@ class Login : AppCompatActivity() {
                     task ->
                 if(task.isSuccessful){
                     // Login
-                    moveMainPage(task.result.user)
+                    moveSelectPage(task.result.user)
                 }else{
                     //Show the error messaage
                     Toast.makeText(this,task.exception?.message,Toast.LENGTH_LONG).show()
@@ -104,7 +103,7 @@ class Login : AppCompatActivity() {
             }
     }
 
-    fun moveMainPage(user:FirebaseUser?){
+    fun moveSelectPage(user:FirebaseUser?){
         if(user != null){
             startActivity(Intent(this,MainActivity::class.java))
 

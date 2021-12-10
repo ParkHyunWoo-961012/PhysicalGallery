@@ -11,11 +11,13 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.physicalgallery.databinding.ActivityMainBinding
 import com.example.physicalgallery.navigation.*
+import com.example.physicalgallery.relatefood.FoodSearchActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
     var PICK_IMAGE_FROM_ALBUM = 0
     val binding by lazy{ ActivityMainBinding.inflate(layoutInflater)}
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.home -> {
@@ -24,12 +26,22 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     .commit()
                 return true
             }
-            R.id.account -> {
-                var userFrag = UserFrag()
-                supportFragmentManager.beginTransaction().replace(R.id.main_contents, userFrag)
-                    .commit()
+            R.id.Food -> {
+                if(checkPersmission()) {
+                    if (ContextCompat.checkSelfPermission(
+                            this,
+                            android.Manifest.permission.READ_EXTERNAL_STORAGE
+                        ) == PackageManager.PERMISSION_GRANTED
+                    ) {
+                        startActivity(Intent(this, FoodSearchActivity::class.java))
+                    }
+                }
+                else{
+                    requestPermission()
+                }
                 return true
             }
+
             R.id.upload -> {
                 if(checkPersmission()) {
                     if (ContextCompat.checkSelfPermission(
@@ -51,6 +63,13 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     .commit()
                 return true
             }
+
+            R.id.account -> {
+                var userFrag = UserFrag()
+                supportFragmentManager.beginTransaction().replace(R.id.main_contents, userFrag)
+                    .commit()
+                return true
+            }
             R.id.alarm -> {
                 var alarmFrag = AlarmFrag()
                 supportFragmentManager.beginTransaction().replace(R.id.main_contents, alarmFrag)
@@ -66,6 +85,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.bottomNavigation.setOnNavigationItemSelectedListener(this)
+
         ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),1)
         //초기 화면 설정
         binding.bottomNavigation.selectedItemId = R.id.home
