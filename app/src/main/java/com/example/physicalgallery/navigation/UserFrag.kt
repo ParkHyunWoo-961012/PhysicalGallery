@@ -1,6 +1,8 @@
 package com.example.physicalgallery.navigation
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,17 +11,48 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.physicalgallery.Login
+import com.example.physicalgallery.MainActivity
+import com.example.physicalgallery.R
 import com.example.physicalgallery.databinding.FragmentUserBinding
 import com.example.physicalgallery.databinding.TestsBinding
-import com.example.physicalgallery.navigation.model.ContentDTO
+import com.example.physicalgallery.navigation.TableDataModel.ContentDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class UserFrag : Fragment(){
     val binding by lazy{FragmentUserBinding.inflate(layoutInflater)}
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    var uid : String? = null
+    var auth :FirebaseAuth? = null
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        var currentuid = FirebaseAuth.getInstance().currentUser?.uid
+        uid = arguments?.getString("destination").toString()
+        if (uid == currentuid) { //when Go to My page not other user's page
+            binding.followButton.text = "SignOut"
+            binding.followButton.setOnClickListener {
+                activity?.finish()
+                startActivity(Intent(activity, Login::class.java))
+                auth?.signOut()
+            }
+        }
+        else{//when go to other user's page not to my page
+            binding.followButton.text = "Follow"
+            var mainactivity = (activity as MainActivity)
+            var username = arguments?.getString("userid")?.split("@")
+            mainactivity?.head_user_name?.text = username?.get(0).toString()
+            Log.e("testing", "${arguments?.getString("userid")}")
+            mainactivity?.back_button?.setOnClickListener{
+                mainactivity.bottom_navigation.selectedItemId = R.id.home
+            }
+            mainactivity?.back_button?.visibility = View.VISIBLE
+            mainactivity?.head_user_name?.visibility = View.VISIBLE
+            mainactivity?.alarm.visibility = View.GONE
+            mainactivity?.head_title?.visibility = View.GONE
+
+        }
         var adapter = UserAdapter()
         binding.userRecyclerview.adapter = adapter
         binding.userRecyclerview.layoutManager = GridLayoutManager(activity,3)
@@ -29,7 +62,6 @@ class UserFrag : Fragment(){
     inner class UserAdapter : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
         var firestore : FirebaseFirestore? = FirebaseFirestore.getInstance()
         var contents : ArrayList<ContentDTO> = arrayListOf()
-        var uid = FirebaseAuth.getInstance().currentUser?.uid
         init{
             firestore?.collection("images")?.whereEqualTo("uid",uid)?.addSnapshotListener{
                     querySnapshot, firebaseFirestoreException ->

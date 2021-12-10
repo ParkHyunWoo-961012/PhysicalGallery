@@ -11,13 +11,31 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_height="50dp">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/Title"
+                android:id="@+id/back_button"
+                android:layout_width="35dp"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="0dp"
+                android:src="@drawable/backbutton"/>
+
+            <TextView
+                android:id="@+id/head_user_name"
+                android:layout_toRightOf="@+id/back_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="3dp"
+                android:text="userid"
+                android:textSize="16sp"
+                android:gravity="center" />
+
+            <ImageView
+                android:id="@+id/head_title"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:foregroundGravity="center"
@@ -28,7 +46,7 @@
                 android:layout_width="63dp"
                 android:layout_height="31dp"
                 android:layout_centerVertical="true"
-                android:layout_alignRight="@+id/Title"
+                android:layout_alignRight="@+id/head_title"
                 android:background="@drawable/alarm" />
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>

@@ -1,22 +1,22 @@
 package com.example.physicalgallery.navigation
 
 import android.content.Intent
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.os.Bundle
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.physicalgallery.R
 import com.example.physicalgallery.databinding.ContentDetailBinding
-import com.example.physicalgallery.navigation.model.ContentDTO
+import com.example.physicalgallery.navigation.TableDataModel.ContentDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.main.content_detail.view.*
 
-class DetailAdapter : RecyclerView.Adapter<DetailAdapter.ViewHolder>() {
+class DetailAdapterTesting : RecyclerView.Adapter<DetailAdapterTesting.ViewHolder>() {
     var firestore : FirebaseFirestore? = FirebaseFirestore.getInstance()
     var contents : ArrayList<ContentDTO> = arrayListOf()
     var contentsUidList : ArrayList<String> = arrayListOf()
@@ -44,7 +44,7 @@ class DetailAdapter : RecyclerView.Adapter<DetailAdapter.ViewHolder>() {
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: DetailAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: DetailAdapterTesting.ViewHolder, position: Int) {
         //val cot = contents.get(position)
         holder.bind()
     }
@@ -74,12 +74,19 @@ class DetailAdapter : RecyclerView.Adapter<DetailAdapter.ViewHolder>() {
             else{
                 binding.favoriteButton.setImageResource(R.drawable.before_favor_click)
             }
-
+            binding.userProfileImage.setOnClickListener{
+                var userFrag = UserFrag()
+                var bundle = Bundle()
+                bundle.putString("destination",contents[pos].uid)
+                bundle.putString("userid",contents[pos].userId)
+                userFrag.arguments = bundle
+            }
             view.comment_detail.setOnClickListener { v ->
                 var intent = Intent(v.context,CommentActivity::class.java)
                 intent.putExtra("contentUid",contentsUidList[pos])
                 startActivity(v.context,intent,Bundle())
             }
+
 
         }
 

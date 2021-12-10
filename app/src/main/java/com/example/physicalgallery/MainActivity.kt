@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -13,12 +14,15 @@ import com.example.physicalgallery.databinding.ActivityMainBinding
 import com.example.physicalgallery.navigation.*
 import com.example.physicalgallery.relatefood.FoodSearchActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
     var PICK_IMAGE_FROM_ALBUM = 0
     val binding by lazy{ ActivityMainBinding.inflate(layoutInflater)}
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        headdefault()
         when (item.itemId) {
             R.id.home -> {
                 var detailFrag = DetailFrag()
@@ -67,6 +71,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
             R.id.account -> {
                 var userFrag = UserFrag()
+                var bundle = Bundle()
+                var uid = FirebaseAuth.getInstance().currentUser?.uid
+                bundle.putString("destination",uid)
+                userFrag.arguments = bundle
                 supportFragmentManager.beginTransaction().replace(R.id.main_contents, userFrag)
                     .commit()
                 return true
@@ -80,6 +88,14 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             else -> return true
         }
     }
+    fun headdefault(){
+        head_title.visibility = View.VISIBLE
+        head_user_name.visibility = View.GONE
+        back_button.visibility = View.GONE
+//        binding.alarm.visibility = View.VISIBLE
+//        binding.backButton.visibility = View.GONE
+//        binding.headUserName.visibility = View.GONE
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,8 +106,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),1)
         //초기 화면 설정
         binding.bottomNavigation.selectedItemId = R.id.home
-
-
         //set default screen
         //binding.bottomNavigation.selectedItemId = R.id.action_home
 

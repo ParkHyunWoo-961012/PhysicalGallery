@@ -1,4 +1,4 @@
-package com.example.physicalgallery.navigation.model
+package com.example.physicalgallery.navigation.TableDataModel
 
 data class ContentDTO(var explain : String? = null,
                       var imageUrl :String? = null,
