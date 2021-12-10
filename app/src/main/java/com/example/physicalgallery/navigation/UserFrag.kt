@@ -26,10 +26,15 @@ class UserFrag : Fragment(){
     val binding by lazy{FragmentUserBinding.inflate(layoutInflater)}
     var uid : String? = null
     var auth :FirebaseAuth? = null
-
+    var firestore : FirebaseFirestore? = FirebaseFirestore.getInstance()
+    companion object { //
+        var profilesetupnumber = 100
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var currentuid = FirebaseAuth.getInstance().currentUser?.uid
         uid = arguments?.getString("destination").toString()
+
+
         if (uid == currentuid) { //when Go to My page not other user's page
             binding.followButton.text = "SignOut"
             binding.followButton.setOnClickListener {
@@ -38,6 +43,7 @@ class UserFrag : Fragment(){
                 auth?.signOut()
             }
         }
+
         else{//when go to other user's page not to my page
             binding.followButton.text = "Follow"
             var mainactivity = (activity as MainActivity)
@@ -53,14 +59,27 @@ class UserFrag : Fragment(){
             mainactivity?.head_title?.visibility = View.GONE
 
         }
+
+        //To upload profile image to Firestore this startactivitiyforResult executed
+        binding.userProfileImage.setOnClickListener{
+            var profileImagesetup = Intent(Intent.ACTION_PICK)
+            profileImagesetup.type = "image/"
+            startActivityForResult(profileImagesetup,profilesetupnumber)
+        }
+
+        getProfileImage(currentuid!!)
+
+
         var adapter = UserAdapter()
+
         binding.userRecyclerview.adapter = adapter
         binding.userRecyclerview.layoutManager = GridLayoutManager(activity,3)
+
         val view = binding.root
         return view
     }
+
     inner class UserAdapter : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
-        var firestore : FirebaseFirestore? = FirebaseFirestore.getInstance()
         var contents : ArrayList<ContentDTO> = arrayListOf()
         init{
             firestore?.collection("images")?.whereEqualTo("uid",uid)?.addSnapshotListener{
@@ -91,6 +110,17 @@ class UserFrag : Fragment(){
 
         override fun getItemCount(): Int {
             return contents.size
+        }
+    }
+    fun getProfileImage(id : String){
+        firestore?.collection("profileImages")?.document(id!!)?.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
+            if(documentSnapshot == null) return@addSnapshotListener
+            Log.e("123123","${21231231231233123}")
+            if(documentSnapshot.data != null){
+                Log.e("value.data","${documentSnapshot.data}")
+                var url = documentSnapshot?.data!!["profile_image"]
+                activity?.let { Glide.with(it).load(url).apply(RequestOptions().circleCrop()).into(binding.userProfileImage!!) }
+            }
         }
     }
 }

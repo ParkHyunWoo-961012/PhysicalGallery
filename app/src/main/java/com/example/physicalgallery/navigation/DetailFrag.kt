@@ -37,7 +37,7 @@ class DetailFrag : Fragment(){
         var uid = FirebaseAuth.getInstance().currentUser?.uid
         init{
             firestore?.collection("images")?.orderBy("timestamp", Query.Direction.DESCENDING)?.addSnapshotListener{
-                //최신글을 맨위에 보여주기위해서 DESCENDING 추가함
+                //Want to show new working list by upper side so i add descending direction.
                     querySnapshot, firebaseFirestoreException ->
                 contents.clear()
                 contentsUidList.clear()
@@ -75,12 +75,12 @@ class DetailFrag : Fragment(){
                 binding.explain.text = contents!![pos].explain
                 //좋아요 개수 보여주기
                 binding.favoriteCounts.text = "Likes " + contents[pos].favoriteCount
-                //좋아요 버튼 클릭
+                //favorite button click and favorite count increase -> this clicklistner action is executed
                 binding.favoriteButton.setOnClickListener{
                     favoriteCilck(pos)
                 }
 
-                //좋아요 클릭된후 좋아요 버튼 색깔 바뀐거 보여주려고
+                //after clicked faivrote button faovorite button color changed or not changed if not cilcked
                 if(contents!![pos].favorites.containsKey(uid)){
                     binding.favoriteButton.setImageResource(R.drawable.after_favor_click)
                 }
