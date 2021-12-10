@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                         ) == PackageManager.PERMISSION_GRANTED
                     ) {
                         startActivity(Intent(this, AddPhotoActivity::class.java))
+
                     }
                 }
                 else{
@@ -89,6 +90,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),1)
         //초기 화면 설정
         binding.bottomNavigation.selectedItemId = R.id.home
+
+
+        //set default screen
+        //binding.bottomNavigation.selectedItemId = R.id.action_home
 
     }
     private fun requestPermission() {

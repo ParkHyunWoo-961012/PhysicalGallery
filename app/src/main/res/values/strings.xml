@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">PhysicalGallery</string>
     <string name="upload_success">upload success</string>
-
+    <string name="send">send</string>
 </resources>

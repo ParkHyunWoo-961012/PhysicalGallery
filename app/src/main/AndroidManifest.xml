@@ -18,6 +18,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PhysicalGallery">
+        <activity
+            android:name=".navigation.CommentActivity"
+            android:exported="false" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.physicalgallery.fileprovider"
