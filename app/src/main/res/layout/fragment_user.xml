@@ -87,9 +87,11 @@
     </RelativeLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/userRecyclerview"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:spanCount="3"
-        tools:listitem="@layout/tests"
+        android:layout_margin="0dp"
+        android:layout_marginTop="0dp"
+        tools:listitem="@layout/userpage_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>

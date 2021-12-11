@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +16,7 @@ import com.example.physicalgallery.Login
 import com.example.physicalgallery.MainActivity
 import com.example.physicalgallery.R
 import com.example.physicalgallery.databinding.FragmentUserBinding
-import com.example.physicalgallery.databinding.TestsBinding
+import com.example.physicalgallery.databinding.UserpageRecyclerviewBinding
 import com.example.physicalgallery.navigation.TableDataModel.ContentDTO
 import com.example.physicalgallery.navigation.TableDataModel.FollowTable
 import com.google.firebase.auth.FirebaseAuth
@@ -76,11 +77,11 @@ class UserFrag : Fragment(){
         getProfileImage(currentuid!!)
         getfollownumber()
 
+
         var adapter = UserAdapter()
-
         binding.userRecyclerview.adapter = adapter
-        binding.userRecyclerview.layoutManager = GridLayoutManager(activity,3)
 
+        binding.userRecyclerview.layoutManager = GridLayoutManager(activity,3)
         val view = binding.root
         return view
     }
@@ -99,7 +100,7 @@ class UserFrag : Fragment(){
             }
         }
         override fun onCreateViewHolder(parent: ViewGroup, viewType:Int): UserAdapter.ViewHolder {
-            val binding = TestsBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+            val binding = UserpageRecyclerviewBinding.inflate(LayoutInflater.from(parent.context),parent,false)
             return ViewHolder(binding)
         }
 
@@ -107,8 +108,10 @@ class UserFrag : Fragment(){
             holder.bind(contents[position])
         }
 
-        inner class ViewHolder(val binding: TestsBinding): RecyclerView.ViewHolder(binding.root){
+        inner class ViewHolder(val binding: UserpageRecyclerviewBinding): RecyclerView.ViewHolder(binding.root){
             fun bind(data : ContentDTO){
+                var wid = resources.displayMetrics.widthPixels/3
+                itemView.layoutParams = LinearLayoutCompat.LayoutParams(wid,wid)
                 Glide.with(itemView.context).load(data.imageUrl).apply(
                     RequestOptions().centerCrop()).into(binding.userPageImage)
             }
