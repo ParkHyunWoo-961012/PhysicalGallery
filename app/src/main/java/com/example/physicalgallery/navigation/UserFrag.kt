@@ -17,6 +17,7 @@ import com.example.physicalgallery.R
 import com.example.physicalgallery.databinding.FragmentUserBinding
 import com.example.physicalgallery.databinding.TestsBinding
 import com.example.physicalgallery.navigation.TableDataModel.ContentDTO
+import com.example.physicalgallery.navigation.TableDataModel.FollowTable
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_main.*
@@ -26,12 +27,13 @@ class UserFrag : Fragment(){
     val binding by lazy{FragmentUserBinding.inflate(layoutInflater)}
     var uid : String? = null
     var auth :FirebaseAuth? = null
+    var currentuid = FirebaseAuth.getInstance().currentUser?.uid
     var firestore : FirebaseFirestore? = FirebaseFirestore.getInstance()
     companion object { //
         var profilesetupnumber = 100
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var currentuid = FirebaseAuth.getInstance().currentUser?.uid
+
         uid = arguments?.getString("destination").toString()
 
 
@@ -58,6 +60,10 @@ class UserFrag : Fragment(){
             mainactivity?.alarm.visibility = View.GONE
             mainactivity?.head_title?.visibility = View.GONE
 
+            //follow statue button click event managed in this line
+            binding.followButton.setOnClickListener {
+                follow()
+            }
         }
 
         //To upload profile image to Firestore this startactivitiyforResult executed
@@ -68,7 +74,7 @@ class UserFrag : Fragment(){
         }
 
         getProfileImage(currentuid!!)
-
+        getfollownumber()
 
         var adapter = UserAdapter()
 
@@ -120,6 +126,86 @@ class UserFrag : Fragment(){
                 Log.e("value.data","${documentSnapshot.data}")
                 var url = documentSnapshot?.data!!["profile_image"]
                 activity?.let { Glide.with(it).load(url).apply(RequestOptions().circleCrop()).into(binding.userProfileImage!!) }
+            }
+        }
+    }
+
+    fun follow(){
+        //save follow data to my account table data
+        var following = firestore?.collection("user")?.document(currentuid!!)
+        firestore?.runTransaction{transaction->
+            var followingdata = transaction.get(following!!).toObject(FollowTable::class.java)
+            if (followingdata == null){// Initialize the follow data of current user if don't have any follower
+                followingdata = FollowTable()
+
+                followingdata!!.numfollwing = 1
+                followingdata!!.followings[uid!!] = true
+
+                transaction.set(following,followingdata)
+
+                return@runTransaction
+            }
+            if(followingdata.followings.containsKey(uid)){
+                followingdata?.numfollwing = followingdata?.numfollwing -1
+                followingdata?.followings?.remove(uid)
+                binding.followButton.text = "Follow"
+            }else{
+                followingdata?.numfollwing = followingdata?.numfollwing +1
+                followingdata?.followings[uid!!] = true
+                binding.followButton.text = "Follow Cancel"
+                return@runTransaction
+            }
+
+            transaction.set(following,followingdata)
+            return@runTransaction
+        }
+
+        var follower = firestore?.collection("user")?.document(uid!!)
+        firestore?.runTransaction{transaction->
+            var followerdata = transaction.get(follower!!).toObject(FollowTable::class.java)
+            if (followerdata == null){// Initialize the follow data of current user if don't have any follower
+                followerdata = FollowTable()
+
+                followerdata!!.numfollwing = 1
+                followerdata!!.followings[currentuid!!] = true
+
+                transaction.set(follower,followerdata)
+
+                return@runTransaction
+            }
+            if(followerdata.followers.containsKey(currentuid)){
+                //when click follow cancel other users
+                followerdata?.numfollwing = followerdata?.numfollwing -1
+                followerdata?.followers?.remove(currentuid)
+                binding.followButton.text = "Follow"
+            }else{
+                followerdata?.numfollower = followerdata?.numfollower +1
+                followerdata?.followers[currentuid!!] = true
+                binding.followButton.text = "Follow Cancel"
+                return@runTransaction
+            }
+
+            transaction.set(follower,followerdata)
+            return@runTransaction
+        }
+        //save follow data to event occured other user table data
+    }
+    fun getfollownumber(){
+        firestore?.collection("user")?.document(uid!!)?.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
+            if(documentSnapshot == null) return@addSnapshotListener
+            var followdata = documentSnapshot.toObject(FollowTable::class.java)
+            if(followdata?.numfollwing == null){
+                binding.followingNumber.text = 0.toString() //followdata?.numfollwing.toString()
+            }
+            if(followdata?.numfollower != null){
+                binding.followerNumber.text = followdata?.numfollwing.toString()
+                if(followdata?.followers?.containsKey(currentuid)){
+                    binding.followButton.text = "Follow Cancel"
+                }else{
+                    if(uid != currentuid){
+                        binding.followButton.text = "Follow"
+                    }
+                }
             }
         }
     }

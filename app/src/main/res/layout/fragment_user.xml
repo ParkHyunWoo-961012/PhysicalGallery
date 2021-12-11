@@ -76,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:text="팔로잉"/>
                 <TextView
-                    android:id="@+id/following"
+                    android:id="@+id/followingNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0"/>
