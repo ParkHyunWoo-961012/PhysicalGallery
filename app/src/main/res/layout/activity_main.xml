@@ -16,47 +16,52 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+
             <ImageView
                 android:id="@+id/back_button"
                 android:layout_width="35dp"
                 android:layout_height="50dp"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="0dp"
-                android:src="@drawable/backbutton"/>
+                android:src="@drawable/backbutton" />
 
             <TextView
                 android:id="@+id/head_user_name"
-                android:layout_toRightOf="@+id/back_button"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="3dp"
+                android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@+id/back_button"
+                android:gravity="center"
                 android:text="userid"
-                android:textSize="16sp"
-                android:gravity="center" />
+                android:textSize="16sp" />
 
             <ImageView
                 android:id="@+id/head_title"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:foregroundGravity="center"
-                android:src="@drawable/appmenu"></ImageView>
+                android:src="@drawable/appmenu" />
 
-            <Button
+            <ImageView
                 android:id="@+id/alarm"
-                android:layout_width="63dp"
-                android:layout_height="31dp"
-                android:layout_centerVertical="true"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
                 android:layout_alignRight="@+id/head_title"
+                android:layout_centerVertical="true"
                 android:background="@drawable/alarm" />
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 
+
+
+
+
     <LinearLayout
-        android:id ="@+id/divided_toolbar"
+        android:id="@+id/divided_toolbar"
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_below ="@+id/toolbar"
-        android:layout_height="1dp"></LinearLayout>
+        android:layout_height="1dp"
+        android:layout_below="@+id/toolbar"
+        android:orientation="horizontal"></LinearLayout>
 
     <FrameLayout
         android:id="@+id/main_contents"

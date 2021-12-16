@@ -98,6 +98,9 @@ class DetailFrag : Fragment(){
                 view.comment_detail.setOnClickListener { v ->
                     var intent = Intent(v.context,CommentActivity::class.java)
                     intent.putExtra("contentUid",contentsUidList[pos])
+                    intent.putExtra("destinationUid",contents[pos].uid)
+
+
                     ContextCompat.startActivity(v.context, intent, Bundle())
                 }
 

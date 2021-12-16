@@ -2,4 +2,7 @@
     <string name="app_name">PhysicalGallery</string>
     <string name="upload_success">upload success</string>
     <string name="send">send</string>
+    <string name="alarm_favorite">favorite</string>
+    <string name="alarm_comment">comment</string>
+    <string name="alarm_follow">follow</string>
 </resources>

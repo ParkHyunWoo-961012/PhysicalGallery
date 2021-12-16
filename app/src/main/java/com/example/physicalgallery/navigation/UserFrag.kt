@@ -17,6 +17,7 @@ import com.example.physicalgallery.MainActivity
 import com.example.physicalgallery.R
 import com.example.physicalgallery.databinding.FragmentUserBinding
 import com.example.physicalgallery.databinding.UserpageRecyclerviewBinding
+import com.example.physicalgallery.navigation.TableDataModel.AlarmDTO
 import com.example.physicalgallery.navigation.TableDataModel.ContentDTO
 import com.example.physicalgallery.navigation.TableDataModel.FollowTable
 import com.google.firebase.auth.FirebaseAuth
@@ -121,6 +122,19 @@ class UserFrag : Fragment(){
             return contents.size
         }
     }
+    //팔로우 알람 함수
+    fun followerAlarm(destinationUid : String){
+        var alarmDTO = AlarmDTO()
+        alarmDTO.destinationUid = destinationUid
+        alarmDTO.userId = auth?.currentUser?.email
+        alarmDTO.uid = auth?.currentUser?.uid
+        alarmDTO.kind = 2
+        alarmDTO.timestamp = System.currentTimeMillis()
+        FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
+
+    }
+
+
     fun getProfileImage(id : String){
         firestore?.collection("profileImages")?.document(id!!)?.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
             if(documentSnapshot == null) return@addSnapshotListener
@@ -171,21 +185,21 @@ class UserFrag : Fragment(){
 
                 followerdata!!.numfollwing = 1
                 followerdata!!.followings[currentuid!!] = true
-
+                followerAlarm(uid!!)
                 transaction.set(follower,followerdata)
 
                 return@runTransaction
             }
             if(followerdata.followers.containsKey(currentuid)){
                 //when click follow cancel other users
-                followerdata?.numfollwing = followerdata?.numfollwing -1
+                followerdata?.numfollwing = followerdata?.numfollower -1
                 followerdata?.followers?.remove(currentuid)
                 binding.followButton.text = "Follow"
             }else{
                 followerdata?.numfollower = followerdata?.numfollower +1
                 followerdata?.followers[currentuid!!] = true
                 binding.followButton.text = "Follow Cancel"
-                return@runTransaction
+                followerAlarm(uid!!)
             }
 
             transaction.set(follower,followerdata)

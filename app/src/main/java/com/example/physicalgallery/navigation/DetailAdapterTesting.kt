@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.physicalgallery.R
 import com.example.physicalgallery.databinding.ContentDetailBinding
+import com.example.physicalgallery.navigation.TableDataModel.AlarmDTO
 import com.example.physicalgallery.navigation.TableDataModel.ContentDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -96,20 +97,41 @@ class DetailAdapterTesting : RecyclerView.Adapter<DetailAdapterTesting.ViewHolde
         return contents.size
     }
 
-    fun favoriteCilck(position:Int){
+    fun favoriteCilck(position:Int) {
         var favor = firestore?.collection("images")?.document(contentsUidList[position])
-        firestore?.runTransaction{
+        firestore?.runTransaction {
             var content = it.get(favor!!).toObject(ContentDTO::class.java)
 
-            if (content!!.favorites.containsKey(uid)){//좋아요 눌린상태 에서 다시 누르는 액션 때문에
-                content.favoriteCount = content?.favoriteCount-1
+            if (content!!.favorites.containsKey(uid)) {//좋아요 눌린상태 에서 다시 누르는 액션 때문에
+                content.favoriteCount = content?.favoriteCount - 1
                 content.favorites.remove(uid)
-            }
-            else{//좋아요 안눌린상태에서 좋아요 누르는 액션을 위해
-                content.favoriteCount = content?.favoriteCount+1
+            } else {//좋아요 안눌린상태에서 좋아요 누르는 액션을 위해
+                content.favoriteCount = content?.favoriteCount + 1
                 content.favorites[uid!!] = true
+                // 좋아요 알림
+                favoriteAlarm(contents[position].uid!!)
+
             }
-            it.set(favor,content)
+            it.set(favor, content)
         }
+
     }
-}
+        fun favoriteAlarm(destinationUid : String){
+            var alarmDTO = AlarmDTO()
+            alarmDTO.destinationUid = destinationUid
+            alarmDTO.userId = FirebaseAuth.getInstance().currentUser?.email
+            alarmDTO.uid = FirebaseAuth.getInstance().currentUser?.uid
+            alarmDTO.kind= 0
+            alarmDTO.timestamp = System.currentTimeMillis()
+            FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
+
+
+
+
+
+        }
+
+
+
+    }
+

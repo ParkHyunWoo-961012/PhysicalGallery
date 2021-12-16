@@ -70,7 +70,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     .commit()
                 return true
             }
-
             R.id.account -> {
                 var userFrag = UserFrag()
                 var bundle = Bundle()
@@ -81,12 +80,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     .commit()
                 return true
             }
-            R.id.alarm -> {
-                var alarmFrag = AlarmFrag()
-                supportFragmentManager.beginTransaction().replace(R.id.main_contents, alarmFrag)
-                    .commit()
-                return true
-            }
+
             else -> return true
         }
     }
@@ -106,7 +100,11 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         binding.bottomNavigation.selectedItemId = R.id.home
         //set default screen
         //binding.bottomNavigation.selectedItemId = R.id.action_home
-
+        binding.alarm.setOnClickListener {
+            var alarmFrag = AlarmFrag()
+            supportFragmentManager.beginTransaction().replace(R.id.main_contents, alarmFrag)
+                .commit()
+        }
     }
 
     private fun requestPermission() {
