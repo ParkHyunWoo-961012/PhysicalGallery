@@ -1,6 +1,7 @@
 package com.example.physicalgallery
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -148,16 +149,21 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         Log.e("!OnActivityREsult", "1231123123123123123")
-        var profileUrl = data?.data
-        var uid = FirebaseAuth.getInstance().currentUser?.uid
-        var storageRef = FirebaseStorage.getInstance().reference.child("profileImages").child(uid!!)
-        Log.e("!OnActivityREsult", "1231123123123123123")
-        storageRef.putFile(profileUrl!!).continueWithTask { task: Task<UploadTask.TaskSnapshot> ->
-            return@continueWithTask storageRef.downloadUrl
-        }.addOnSuccessListener { uri ->
-            var mapping = HashMap<String, Any>()
-            mapping["profile_image"] = uri.toString()
-            FirebaseFirestore.getInstance().collection("profileImages").document(uid).set(mapping)
+        if (resultCode == Activity.RESULT_OK) {
+            var profileUrl = data?.data
+            var uid = FirebaseAuth.getInstance().currentUser?.uid
+            var storageRef =
+                FirebaseStorage.getInstance().reference.child("profileImages").child(uid!!)
+            Log.e("!OnActivityREsult", "1231123123123123123")
+            storageRef.putFile(profileUrl!!)
+                .continueWithTask { task: Task<UploadTask.TaskSnapshot> ->
+                    return@continueWithTask storageRef.downloadUrl
+                }.addOnSuccessListener { uri ->
+                var mapping = HashMap<String, Any>()
+                mapping["profile_image"] = uri.toString()
+                FirebaseFirestore.getInstance().collection("profileImages").document(uid)
+                    .set(mapping)
+            }
         }
     }
 }

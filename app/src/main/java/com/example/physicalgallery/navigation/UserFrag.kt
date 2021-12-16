@@ -129,7 +129,6 @@ class UserFrag : Fragment(){
         alarmDTO.kind = 2
         alarmDTO.timestamp = System.currentTimeMillis()
         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
-
     }
 
 

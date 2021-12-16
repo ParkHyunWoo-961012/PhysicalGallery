@@ -18,7 +18,6 @@ class FoodSearchActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.foodSearch.setOnClickListener{
-
             var name = (binding.foodName.text).toString()
             if (name == ""){
                 Toast.makeText(applicationContext,"you don't any input",Toast.LENGTH_LONG).show()

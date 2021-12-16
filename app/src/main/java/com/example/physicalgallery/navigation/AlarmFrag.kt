@@ -54,7 +54,6 @@ class AlarmFrag : Fragment(){
         inner class CustomViewHolder(view : View) : RecyclerView.ViewHolder(view)
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             var view = holder.itemView
-
             var profilecollection = FirebaseFirestore.getInstance().collection("profileImages")
             profilecollection.document(alarmDTOList[position].uid.toString()).get().addOnCompleteListener{ task ->
                 if(task.isSuccessful){
@@ -64,17 +63,26 @@ class AlarmFrag : Fragment(){
                 }
             }
             when(alarmDTOList[position].kind){
+
+
+
                 0->{
-                    var str_0 = alarmDTOList[position].userId + getString(R.string.alarm_favorite)
-                    view.commentview_text_profile.text = str_0
+                    var emailTO = alarmDTOList[position].userId.toString().split("@")
+                    var naming = emailTO[0]
+                    naming = naming + " : favorite clicked"
+                    view.commentview_text_profile.text = naming
                 }
                 1->{
-                    var str_0 = alarmDTOList[position].userId + " " + getString(R.string.alarm_comment)+" of "+ alarmDTOList[position].message
-                    view.commentview_text_profile.text = str_0
+                    var emailTO = alarmDTOList[position].userId.toString().split("@")
+                    var naming = emailTO[0]
+                    naming = naming + " comment "+" of "+ alarmDTOList[position].message
+                    view.commentview_text_profile.text = naming
                 }
                 2->{
-                    var str_0 = alarmDTOList[position].userId + getString(R.string.alarm_follow)
-                    view.commentview_text_profile.text = str_0
+                    var emailTO = alarmDTOList[position].userId.toString().split("@")
+                    var naming = emailTO[0]
+                    naming = naming + " : Follow "
+                    view.commentview_text_profile.text = naming
                 }
             }
             view.commentview_text_comment.visibility = View.INVISIBLE
