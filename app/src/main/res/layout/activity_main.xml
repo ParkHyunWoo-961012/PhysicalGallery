@@ -42,13 +42,6 @@
                 android:foregroundGravity="center"
                 android:src="@drawable/appmenu" />
 
-            <ImageView
-                android:id="@+id/alarm"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:layout_alignRight="@+id/head_title"
-                android:layout_centerVertical="true"
-                android:background="@drawable/alarm" />
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 

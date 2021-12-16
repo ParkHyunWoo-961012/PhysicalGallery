@@ -58,7 +58,6 @@ class UserFrag : Fragment(){
             }
             mainactivity?.back_button?.visibility = View.VISIBLE
             mainactivity?.head_user_name?.visibility = View.VISIBLE
-            mainactivity?.alarm?.visibility = View.GONE
             mainactivity?.head_title?.visibility = View.GONE
 
             //follow statue button click event managed in this line

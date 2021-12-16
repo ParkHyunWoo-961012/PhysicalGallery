@@ -56,7 +56,7 @@ class AlarmFrag : Fragment(){
             var view = holder.itemView
 
             var profilecollection = FirebaseFirestore.getInstance().collection("profileImages")
-            profilecollection.document(alarmDTOList[position].uid!!).get().addOnCompleteListener{ task ->
+            profilecollection.document(alarmDTOList[position].uid.toString()).get().addOnCompleteListener{ task ->
                 if(task.isSuccessful){
                     var url = task.result!!["image"]
                     var urlglide = Glide.with(view.context).load(url)

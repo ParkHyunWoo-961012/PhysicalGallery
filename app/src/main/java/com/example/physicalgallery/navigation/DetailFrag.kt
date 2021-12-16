@@ -2,6 +2,7 @@ package com.example.physicalgallery.navigation
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.physicalgallery.R
 import com.example.physicalgallery.databinding.ContentDetailBinding
 import com.example.physicalgallery.databinding.FragmentDetailBinding
@@ -71,6 +73,7 @@ class DetailFrag : Fragment(){
                 val arrayId = contents!![pos].userId.toString().split("@")
                 binding.userProfileText.text = arrayId[0]
                 //유저가 올린 사진 보여주기위해서
+                Log.e("nqkwelnrqklwenr","${contents!![pos].imageUrl}")
                 Glide.with(itemView).load(contents!![pos].imageUrl).into(binding.detailContentImage)
                 //유저가 쓴글 보여주기
                 binding.explain.text = contents!![pos].explain
@@ -80,7 +83,12 @@ class DetailFrag : Fragment(){
                 binding.favoriteButton.setOnClickListener{
                     favoriteCilck(pos)
                 }
-
+                firestore?.collection("profileImages")?.document(contents!![pos].uid!!)?.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
+                    if(documentSnapshot == null) return@addSnapshotListener
+                    Log.e("getFoodData2","${documentSnapshot.getString("profile_image")}")
+                    Glide.with(itemView).load(documentSnapshot.getString("profile_image")).apply(
+                        RequestOptions().circleCrop()).into(binding.userProfileImage)
+                }
                 //after clicked faivrote button faovorite button color changed or not changed if not cilcked
                 if(contents!![pos].favorites.containsKey(uid)){
                     binding.favoriteButton.setImageResource(R.drawable.after_favor_click)
@@ -128,4 +136,5 @@ class DetailFrag : Fragment(){
             }
         }
     }
+
 }
