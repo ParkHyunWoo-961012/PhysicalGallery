@@ -103,10 +103,10 @@ class DetailAdapterTesting : RecyclerView.Adapter<DetailAdapterTesting.ViewHolde
             var content = it.get(favor!!).toObject(ContentDTO::class.java)
 
             if (content!!.favorites.containsKey(uid)) {//좋아요 눌린상태 에서 다시 누르는 액션 때문에
-                content.favoriteCount = content?.favoriteCount - 1
+                content.favoriteCount = content?.favoriteCount!! - 1
                 content.favorites.remove(uid)
             } else {//좋아요 안눌린상태에서 좋아요 누르는 액션을 위해
-                content.favoriteCount = content?.favoriteCount + 1
+                content.favoriteCount = content?.favoriteCount!! + 1
                 content.favorites[uid!!] = true
                 // 좋아요 알림
                 favoriteAlarm(contents[position].uid!!)

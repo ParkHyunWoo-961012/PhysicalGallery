@@ -38,7 +38,6 @@ class UserFrag : Fragment(){
 
         uid = arguments?.getString("destination").toString()
 
-
         if (uid == currentuid) { //when Go to My page not other user's page
             binding.followButton.text = "SignOut"
             binding.followButton.setOnClickListener {
@@ -59,7 +58,7 @@ class UserFrag : Fragment(){
             }
             mainactivity?.back_button?.visibility = View.VISIBLE
             mainactivity?.head_user_name?.visibility = View.VISIBLE
-            mainactivity?.alarm.visibility = View.GONE
+            mainactivity?.alarm?.visibility = View.GONE
             mainactivity?.head_title?.visibility = View.GONE
 
             //follow statue button click event managed in this line
@@ -163,12 +162,12 @@ class UserFrag : Fragment(){
                 return@runTransaction
             }
             if(followingdata.followings.containsKey(uid)){
-                followingdata?.numfollwing = followingdata?.numfollwing -1
+                followingdata?.numfollwing = followingdata?.numfollwing!! -1
                 followingdata?.followings?.remove(uid)
                 binding.followButton.text = "Follow"
             }else{
-                followingdata?.numfollwing = followingdata?.numfollwing +1
-                followingdata?.followings[uid!!] = true
+                followingdata?.numfollwing = followingdata?.numfollwing!! +1
+                followingdata?.followings!![uid!!] = true
                 binding.followButton.text = "Follow Cancel"
                 return@runTransaction
             }
@@ -192,12 +191,12 @@ class UserFrag : Fragment(){
             }
             if(followerdata.followers.containsKey(currentuid)){
                 //when click follow cancel other users
-                followerdata?.numfollwing = followerdata?.numfollower -1
+                followerdata?.numfollwing = followerdata?.numfollower!! -1
                 followerdata?.followers?.remove(currentuid)
                 binding.followButton.text = "Follow"
             }else{
-                followerdata?.numfollower = followerdata?.numfollower +1
-                followerdata?.followers[currentuid!!] = true
+                followerdata?.numfollower = followerdata?.numfollower!! +1
+                followerdata?.followers!![currentuid!!] = true
                 binding.followButton.text = "Follow Cancel"
                 followerAlarm(uid!!)
             }
@@ -216,7 +215,7 @@ class UserFrag : Fragment(){
             }
             if(followdata?.numfollower != null){
                 binding.followerNumber.text = followdata?.numfollwing.toString()
-                if(followdata?.followers?.containsKey(currentuid)){
+                if(followdata?.followers?.containsKey(currentuid)!!){
                     binding.followButton.text = "Follow Cancel"
                 }else{
                     if(uid != currentuid){

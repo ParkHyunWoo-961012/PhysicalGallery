@@ -23,7 +23,7 @@ class AlarmFrag : Fragment(){
         view.alarmfragment_recyclerview.adapter = AlarmRecycleviewAdapter()
         view.alarmfragment_recyclerview.layoutManager = LinearLayoutManager(activity)
 
-        return super.onCreateView(inflater,container,savedInstanceState)
+        return view
     }
     inner class AlarmRecycleviewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
         var alarmDTOList : ArrayList<AlarmDTO> = arrayListOf()
