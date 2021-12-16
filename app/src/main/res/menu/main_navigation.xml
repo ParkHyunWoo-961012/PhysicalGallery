@@ -7,26 +7,26 @@
         android:title="Home" />
 
     <item
-        android:id="@+id/search"
+        android:id="@+id/Food"
         android:enabled="true"
-        android:icon = "@drawable/search"
-        android:title="Search"/>
-d
+        android:title="Food"
+        android:icon = "@drawable/food"/>
+
     <item
         android:id="@+id/upload"
         android:enabled="true"
         android:icon = "@drawable/upload"
         android:title="Upload"/>
-
+    <item
+        android:id="@+id/alarm"
+        android:enabled="true"
+        android:icon = "@drawable/search"
+        android:title="Search"/>
     <item
         android:id="@+id/account"
         android:enabled="true"
         android:icon = "@drawable/account"
         android:title="Account"/>
 
-    <item
-        android:id="@+id/Food"
-        android:enabled="true"
-        android:title="Food"
-        android:icon = "@drawable/food"/>
+
 </menu>

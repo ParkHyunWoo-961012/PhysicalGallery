@@ -30,6 +30,7 @@ class DetailFrag : Fragment(){
 
         return view
     }
+
     inner class DetailAdapter : RecyclerView.Adapter<DetailAdapter.ViewHolder>() {
         var firestore : FirebaseFirestore? = FirebaseFirestore.getInstance()
         var contents : ArrayList<ContentDTO> = arrayListOf()
