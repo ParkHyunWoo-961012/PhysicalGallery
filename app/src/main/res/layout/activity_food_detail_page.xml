@@ -222,6 +222,7 @@
     </TableLayout>
 
     <EditText
+        android:id="@+id/user_Input_Amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
@@ -232,12 +233,12 @@
         android:hint="먹은 양을 넣으세요(g)"
         android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button"
+        app:layout_constraintEnd_toStartOf="@+id/gotodiarybutton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/result_table" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/gotodiarybutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"

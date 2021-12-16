@@ -12,7 +12,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.physicalgallery.databinding.ActivityMainBinding
 import com.example.physicalgallery.navigation.*
-import com.example.physicalgallery.relatefood.FoodSearchActivity
+import com.example.physicalgallery.relatefood.DiaryActivity
 import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -41,14 +41,13 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                             android.Manifest.permission.READ_EXTERNAL_STORAGE
                         ) == PackageManager.PERMISSION_GRANTED
                     ) {
-                        startActivity(Intent(this, FoodSearchActivity::class.java))
+                        startActivity(Intent(this, DiaryActivity::class.java))
                     }
                 } else {
                     requestPermission()
                 }
                 return true
             }
-
             R.id.upload -> {
                 if (checkPersmission()) {
                     if (ContextCompat.checkSelfPermission(

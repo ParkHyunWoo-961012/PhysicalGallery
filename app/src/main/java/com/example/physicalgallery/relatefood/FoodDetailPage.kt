@@ -1,5 +1,6 @@
 package com.example.physicalgallery.relatefood
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.physicalgallery.databinding.ActivityFoodDetailPageBinding
@@ -23,6 +24,23 @@ class FoodDetailPage : AppCompatActivity() {
         binding.carbo.text = detail.carbo.toString()
         binding.fiber.text = detail.fiber.toString()
         binding.protein.text = detail.protein.toString()
+
+        binding.gotodiarybutton.setOnClickListener{
+            var calories = 0
+            // To manage user no input number to injection amount
+            if(binding.userInputAmount.text.toString() == ""){
+                calories = detail.calories.toString().toFloat().toInt()
+            }else {
+                val amount = binding.userInputAmount.text.toString().toInt()
+                val provide_amount = detail.provide_per_time.toString().toFloat().toInt()
+                calories = detail.calories.toString().toInt()
+                calories = (amount * calories / provide_amount).toInt()
+            }
+            Intent(this@FoodDetailPage, DiaryActivity::class.java).apply {
+                putExtra("FoodName", detail.food_name)
+                putExtra("Calorie",calories)
+            }.run { startActivity(this) }
+        }
 
     }
 }
