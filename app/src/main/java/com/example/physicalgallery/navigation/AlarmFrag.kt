@@ -69,15 +69,15 @@ class AlarmFrag : Fragment(){
                 }
             }
             when(alarmDTOList[position].kind){
-                "favorite"->{
+                1->{
                     var str_0 = alarmDTOList[position].userId.toString().split("@")[0] + getString(R.string.alarm_favorite)
                     view.commentview_text_profile.text = str_0
                 }
-                "comment"->{
+                2->{
                     var str_0 = alarmDTOList[position].userId.toString().split("@")[0] + " " + getString(R.string.alarm_comment)+"\""+ alarmDTOList[position].message+"\""
                     view.commentview_text_profile.text = str_0
                 }
-                "follow"->{
+                3->{
                     var str_0 = alarmDTOList[position].userId.toString().split("@")[0] + getString(R.string.alarm_follow)
                     view.commentview_text_profile.text = str_0
                 }

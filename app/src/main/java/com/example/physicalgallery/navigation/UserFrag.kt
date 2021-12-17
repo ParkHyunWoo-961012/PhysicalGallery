@@ -138,7 +138,7 @@ class UserFrag : Fragment(){
         alarmDTO.userId = FirebaseAuth.getInstance().currentUser?.email
         Log.e("!23123123","${alarmDTO.userId}")
         alarmDTO.uid = currentuid
-        alarmDTO.kind = "follow"
+        alarmDTO.kind = 3
         alarmDTO.timestamp = System.currentTimeMillis()
         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
     }

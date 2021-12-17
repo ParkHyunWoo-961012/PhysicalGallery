@@ -119,7 +119,7 @@ class DetailAdapterTesting : RecyclerView.Adapter<DetailAdapterTesting.ViewHolde
         var alarmDTO = AlarmDTO()
         alarmDTO.destinationUid = destinationUid
         alarmDTO.userId = FirebaseAuth.getInstance().currentUser?.email
-        alarmDTO.kind= "favorite"
+        alarmDTO.kind= 1
         alarmDTO.uid = FirebaseAuth.getInstance().currentUser?.uid
         alarmDTO.timestamp = System.currentTimeMillis()
         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
