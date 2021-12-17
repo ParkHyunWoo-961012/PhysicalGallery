@@ -68,6 +68,7 @@ class AlarmFrag : Fragment(){
                     var str_0 = alarmDTOList[position].userId + getString(R.string.alarm_favorite)
                     view.commentview_text_profile.text = str_0
                 }
+
                 1->{
                     var str_0 = alarmDTOList[position].userId + " " + getString(R.string.alarm_comment)+" of "+ alarmDTOList[position].message
                     view.commentview_text_profile.text = str_0

@@ -52,7 +52,6 @@ class UserFrag : Fragment(){
             var mainactivity = (activity as MainActivity)
             var username = arguments?.getString("userid")?.split("@")
             mainactivity?.head_user_name?.text = username?.get(0).toString()
-            Log.e("testing", "${arguments?.getString("userid")}")
             mainactivity?.back_button?.setOnClickListener{
                 mainactivity.bottom_navigation.selectedItemId = R.id.home
             }
@@ -63,6 +62,7 @@ class UserFrag : Fragment(){
             //follow statue button click event managed in this line
             binding.followButton.setOnClickListener {
                 follow()
+                getfollownumber()
             }
         }
 
@@ -124,8 +124,8 @@ class UserFrag : Fragment(){
     fun followerAlarm(destinationUid : String){
         var alarmDTO = AlarmDTO()
         alarmDTO.destinationUid = destinationUid
-        alarmDTO.userId = auth?.currentUser!!.email
-        alarmDTO.uid = auth?.currentUser!!.uid
+        alarmDTO.userId = auth?.currentUser?.email
+        alarmDTO.uid = auth?.currentUser?.uid
         alarmDTO.kind = 2
         alarmDTO.timestamp = System.currentTimeMillis()
         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
@@ -145,89 +145,71 @@ class UserFrag : Fragment(){
     }
 
     fun follow(){
-
-
-        var tsDocFollowing = firestore!!.collection("users").document(currentuid!!)
-        firestore?.runTransaction { transaction ->
-
-            var followDTO = transaction.get(tsDocFollowing).toObject(FollowTable::class.java)
-            if (followDTO == null) {
-
-                followDTO = FollowTable()
-                followDTO.numfollowing = 1
-                followDTO.followings[uid!!] = true
-
-                transaction.set(tsDocFollowing, followDTO)
-                return@runTransaction
-
-            }
-            // Unstar the post and remove self from stars
-            if (followDTO?.followings?.containsKey(uid)!!) {
-
-                followDTO?.numfollowing = followDTO?.numfollowing - 1
-                followDTO?.followings.remove(uid)
-                binding.followButton.text = "Follow"
-            } else {
-
-                followDTO?.numfollowing = followDTO?.numfollowing + 1
-                followDTO?.followings[uid!!] = true
-
-                binding.followButton.text = "Follow Cancel"
-            }
-            transaction.set(tsDocFollowing, followDTO)
-            return@runTransaction
-        }
-
-        var tsDocFollower = firestore!!.collection("users").document(uid!!)
-        firestore?.runTransaction { transaction ->
-
-            var followDTO = transaction.get(tsDocFollower).toObject(FollowTable::class.java)
-            if (followDTO == null) {
-
-                followDTO = FollowTable()
-                followDTO!!.numfollower = 1
-                followDTO!!.followers[currentuid!!] = true
-
-
-                transaction.set(tsDocFollower, followDTO!!)
+        //save follow data to my account table data
+        var following = firestore?.collection("FollowData")?.document(currentuid!!)
+        firestore?.runTransaction{transaction->
+            var followingdata = transaction.get(following!!).toObject(FollowTable::class.java)
+            if (followingdata == null) {
+                followingdata = FollowTable(numfollwing = 1)
+                followingdata.followings[uid!!] = true
+                transaction.set(following, followingdata)
                 return@runTransaction
             }
-
-            if (followDTO?.followers?.containsKey(currentuid!!)!!) {
-
-
-                followDTO!!.numfollower = followDTO!!.numfollower - 1
-                followDTO!!.followers.remove(currentuid!!)
-                binding.followButton.text = "Follow"
-            } else {
-
-                followDTO!!.numfollower = followDTO!!.numfollower + 1
-                followDTO!!.followers[currentuid!!] = true
-                binding.followButton.text = "Follow Cancel"
-                followerAlarm(uid!!)
-
-            }// Star the post and add self to stars
-
-            transaction.set(tsDocFollower, followDTO!!)
+            if (followingdata.followings.containsKey(uid)){
+                followingdata.numfollwing = followingdata.numfollwing - 1
+                followingdata.followings.remove(uid)
+                transaction.set(following,followingdata)
+            }else{
+                followingdata.numfollwing = followingdata.numfollwing + 1
+                followingdata.followings.remove(uid)
+                transaction.set(following,followingdata)
+            }
             return@runTransaction
         }
-
+        var follower = firestore?.collection("FollowData")?.document(uid!!)
+        firestore?.runTransaction{transaction->
+            var followerdata = transaction.get(follower!!).toObject(FollowTable::class.java)
+            if (followerdata == null){
+                followerdata = FollowTable(numfollower = 1)
+                followerdata.followers[currentuid!!] = true
+                binding.followButton.text = "Follow Cancel"
+                transaction.set(follower,followerdata)
+                return@runTransaction
+            }
+            if(followerdata.followers.containsKey(currentuid)){
+                followerdata.numfollower = followerdata.numfollower - 1
+                followerdata.followers.remove(currentuid)
+                binding.followButton.text = "Follow"
+                transaction.set(follower,followerdata)
+            }else{
+                followerdata.numfollower = followerdata.numfollower + 1
+                followerdata.followers[currentuid!!] = true
+                binding.followButton.text = "Follow Cancel"
+                transaction.set(follower,followerdata)
+            }
+            return@runTransaction
+        }
+        //save follow data to event occured other user table data
     }
-    //save follow data to event occured other user table data
 
     fun getfollownumber(){
-        firestore?.collection("user")?.document(uid!!)?.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
+        firestore?.collection("FollowData")?.document(uid!!)?.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
             if(documentSnapshot == null) return@addSnapshotListener
             var followdata = documentSnapshot.toObject(FollowTable::class.java)
-            if(followdata?.numfollowing == null){
-                binding.followingNumber.text = 0.toString() //followdata?.numfollwing.toString()
+            if(followdata?.numfollwing == null){
+                binding.followingNumber.text = 0.toString()
+                binding.followerNumber.text = 0.toString()//followdata?.numfollwing.toString()
             }
             if(followdata?.numfollower != null){
-                binding.followerNumber.text = followdata?.numfollowing.toString()
+                binding.followingNumber.text = followdata?.numfollwing.toString()
+                binding.followerNumber.text = followdata?.numfollower.toString()
+
                 if(followdata?.followers?.containsKey(currentuid)!!){
                     binding.followButton.text = "Follow Cancel"
                 }else{
-                    if(uid != currentuid){
+                    if(uid == currentuid){
+                        binding.followButton.text = "Sign Out"
+                    }else{
                         binding.followButton.text = "Follow"
                     }
                 }

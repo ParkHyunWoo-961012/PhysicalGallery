@@ -148,13 +148,11 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.e("!OnActivityREsult", "1231123123123123123")
         if (resultCode == Activity.RESULT_OK) {
             var profileUrl = data?.data
             var uid = FirebaseAuth.getInstance().currentUser?.uid
             var storageRef =
                 FirebaseStorage.getInstance().reference.child("profileImages").child(uid!!)
-            Log.e("!OnActivityREsult", "1231123123123123123")
             storageRef.putFile(profileUrl!!)
                 .continueWithTask { task: Task<UploadTask.TaskSnapshot> ->
                     return@continueWithTask storageRef.downloadUrl
