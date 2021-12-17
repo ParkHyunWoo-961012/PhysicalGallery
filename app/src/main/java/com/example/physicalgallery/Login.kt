@@ -58,7 +58,7 @@ class Login : AppCompatActivity() {
     }
 
 
-        fun firebaseAuthGoogle(account : GoogleSignInAccount?){
+    fun firebaseAuthGoogle(account : GoogleSignInAccount?){
         var credential = GoogleAuthProvider.getCredential(account?.idToken,null)
         auth!!.signInWithCredential(credential)
             ?.addOnCompleteListener {

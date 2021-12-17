@@ -36,6 +36,7 @@ class FoodDetailPage : AppCompatActivity() {
                 calories = detail.calories.toString().toFloat().toInt()
                 calories = (amount * calories / provide_amount).toInt()
             }
+
             Intent(this@FoodDetailPage, DiaryActivity::class.java).apply {
                 putExtra("FoodName", detail.food_name)
                 putExtra("Calorie",calories)

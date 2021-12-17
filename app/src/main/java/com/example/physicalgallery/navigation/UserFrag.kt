@@ -92,25 +92,30 @@ class UserFrag : Fragment(){
         binding.userRecyclerview.adapter = adapter
 
         binding.userRecyclerview.layoutManager = GridLayoutManager(activity,3)
-        val view = binding.root
-        return view
-    }
+        return binding.root
 
+    }
     inner class UserAdapter : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
-        var contents : ArrayList<ContentDTO> = arrayListOf()
-        init{
-            firestore?.collection("alarms")?.whereEqualTo("uid",uid)?.addSnapshotListener{
-                    querySnapshot, firebaseFirestoreException ->
-                if(querySnapshot == null) return@addSnapshotListener
-                for(snapshot in querySnapshot.documents){
-                    contents.add(snapshot.toObject(ContentDTO::class.java)!!)
-                    binding.postingNumber.text = contents.size.toString()
+        var contents: ArrayList<ContentDTO> = arrayListOf()
+
+        init {
+            firestore?.collection("images")?.whereEqualTo("uid", uid)
+                ?.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                    if (querySnapshot == null) return@addSnapshotListener
+                    for (snapshot in querySnapshot.documents) {
+                        contents.add(snapshot.toObject(ContentDTO::class.java)!!)
+                        binding.postingNumber.text = contents.size.toString()
+                    }
+                    notifyDataSetChanged()
                 }
-                notifyDataSetChanged()
-            }
         }
-        override fun onCreateViewHolder(parent: ViewGroup, viewType:Int): UserAdapter.ViewHolder {
-            val binding = UserpageRecyclerviewBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserAdapter.ViewHolder {
+            val binding = UserpageRecyclerviewBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
             return ViewHolder(binding)
         }
 
@@ -118,12 +123,14 @@ class UserFrag : Fragment(){
             holder.bind(contents[position])
         }
 
-        inner class ViewHolder(val binding: UserpageRecyclerviewBinding): RecyclerView.ViewHolder(binding.root){
-            fun bind(data : ContentDTO){
-                var wid = resources.displayMetrics.widthPixels/3
-                itemView.layoutParams = LinearLayoutCompat.LayoutParams(wid,wid)
+        inner class ViewHolder(val binding: UserpageRecyclerviewBinding) :
+            RecyclerView.ViewHolder(binding.root) {
+            fun bind(data: ContentDTO) {
+                var wid = resources.displayMetrics.widthPixels / 3
+                itemView.layoutParams = LinearLayoutCompat.LayoutParams(wid, wid)
                 Glide.with(itemView.context).load(data.imageUrl).apply(
-                    RequestOptions().centerCrop()).into(binding.userPageImage)
+                    RequestOptions().centerCrop()
+                ).into(binding.userPageImage)
             }
         }
 
@@ -131,6 +138,37 @@ class UserFrag : Fragment(){
             return contents.size
         }
     }
+//    inner class UserAdapter : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
+//        var contents : ArrayList<ContentDTO> = arrayListOf()
+//        init{
+//            firestore?.collection("images")?.whereEqualTo("uid",uid)?.addSnapshotListener{
+//                    querySnapshot, firebaseFirestoreException ->
+//                if(querySnapshot == null) return@addSnapshotListener
+//                for(snapshot in querySnapshot.documents){
+//                    contents.add(snapshot.toObject(ContentDTO::class.java)!!)
+//                    binding.postingNumber.text = contents.size.toString()
+//                }
+//                notifyDataSetChanged()
+//            }
+//        }
+//        override fun onCreateViewHolder(parent: ViewGroup, viewType:Int): UserAdapter.ViewHolder {
+//            val binding = TestsBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+//            return ViewHolder(binding)
+//        }
+//        override fun onBindViewHolder(holder: UserAdapter.ViewHolder, position: Int) {
+//            holder.bind(contents[position])
+//        }
+//        inner class ViewHolder(val binding: TestsBinding): RecyclerView.ViewHolder(binding.root){
+//            fun bind(data : ContentDTO){
+//                Glide.with(itemView.context).load(data.imageUrl).apply(
+//                    RequestOptions().centerCrop()).into(binding.userPageImage)
+//            }
+//        }
+//        override fun getItemCount(): Int {
+//            return contents.size
+//        }
+//    }
+
     //팔로우 알람 함수
     fun followerAlarm(destinationUid : String){
         var alarmDTO = AlarmDTO()

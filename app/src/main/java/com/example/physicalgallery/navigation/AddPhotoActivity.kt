@@ -45,7 +45,7 @@ class AddPhotoActivity : AppCompatActivity() {
         firestore = FirebaseFirestore.getInstance()
 
 
-        val intent = Intent(Intent.ACTION_PICK)
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/*"
         startActivityForResult(intent, PICK_IMAGE_FROM_ALBUM)
 
@@ -141,7 +141,7 @@ class AddPhotoActivity : AppCompatActivity() {
         var upload_image = storageRef?.putFile(photoUri!!)
 
         upload_image?.continueWithTask{ task: Task<UploadTask.TaskSnapshot> ->
-            return@continueWithTask storageRef?.downloadUrl
+            return@continueWithTask storageRef?.downloadUrl!!
         }?.addOnSuccessListener{
             var content = ContentDTO()
 
