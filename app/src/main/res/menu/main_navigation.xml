@@ -20,8 +20,8 @@
     <item
         android:id="@+id/alarm"
         android:enabled="true"
-        android:icon = "@drawable/search"
-        android:title="Search"/>
+        android:icon = "@drawable/alarm"
+        android:title="alarm"/>
     <item
         android:id="@+id/account"
         android:enabled="true"

@@ -63,9 +63,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 }
                 return true
             }
-            R.id.search -> {
-                var gridFrag = GridFrag()
-                supportFragmentManager.beginTransaction().replace(R.id.main_contents, gridFrag)
+            R.id.alarm -> {
+                var alarmFrag = AlarmFrag()
+                supportFragmentManager.beginTransaction().replace(R.id.main_contents, alarmFrag)
                     .commit()
                 return true
             }
@@ -99,11 +99,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         binding.bottomNavigation.selectedItemId = R.id.home
         //set default screen
         //binding.bottomNavigation.selectedItemId = R.id.action_home
-        binding.alarm.setOnClickListener {
-            var alarmFrag = AlarmFrag()
-            supportFragmentManager.beginTransaction().replace(R.id.main_contents, alarmFrag)
-                .commit()
-        }
+
     }
 
     private fun requestPermission() {
@@ -143,7 +139,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         head_title.visibility = View.VISIBLE
         head_user_name.visibility = View.GONE
         back_button.visibility = View.GONE
-        alarm.visibility = View.VISIBLE
+
 //        binding.alarm.visibility = View.VISIBLE
 //        binding.backButton.visibility = View.GONE
 //        binding.headUserName.visibility = View.GONE

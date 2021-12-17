@@ -1,6 +1,7 @@
 package com.example.physicalgallery.navigation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,8 +32,8 @@ class AlarmFrag : Fragment(){
         init{
             val uid = FirebaseAuth.getInstance().currentUser?.uid
 
-            var alarmcollection = FirebaseFirestore.getInstance().collection("alarms")
-            alarmcollection.whereEqualTo("destinationUid",uid).addSnapshotListener { value, error ->
+            FirebaseFirestore.getInstance().collection("alarms")
+                .whereEqualTo("destinationUid",uid).addSnapshotListener { value, error ->
                 alarmDTOList.clear()
                 if(value==null) return@addSnapshotListener
 
@@ -52,11 +53,12 @@ class AlarmFrag : Fragment(){
             return alarmDTOList.size
         }
         inner class CustomViewHolder(view : View) : RecyclerView.ViewHolder(view)
+
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             var view = holder.itemView
-
-            var profilecollection = FirebaseFirestore.getInstance().collection("profileImages")
-            profilecollection.document(alarmDTOList[position].uid!!).get().addOnCompleteListener{ task ->
+            Log.e("test","implement here")
+            FirebaseFirestore.getInstance().collection("profileImages").document(alarmDTOList[position].uid!!).get().addOnCompleteListener{
+                task ->
                 if(task.isSuccessful){
                     var url = task.result!!["image"]
                     var urlglide = Glide.with(view.context).load(url)
@@ -69,12 +71,12 @@ class AlarmFrag : Fragment(){
                     view.commentview_text_profile.text = str_0
                 }
                 1->{
-                    var str_0 = alarmDTOList[position].userId + " " + getString(R.string.alarm_comment)+" of "+ alarmDTOList[position].message
-                    view.commentview_text_profile.text = str_0
+                    var str_1 = alarmDTOList[position].userId + " " + getString(R.string.alarm_comment)+"\""+ alarmDTOList[position].message+"\""
+                    view.commentview_text_profile.text = str_1
                 }
                 2->{
-                    var str_0 = alarmDTOList[position].userId + getString(R.string.alarm_follow)
-                    view.commentview_text_profile.text = str_0
+                    var str_2 = alarmDTOList[position].userId +  " " +getString(R.string.alarm_follow)
+                    view.commentview_text_profile.text = str_2
                 }
             }
             view.commentview_text_comment.visibility = View.INVISIBLE

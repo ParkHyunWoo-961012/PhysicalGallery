@@ -59,11 +59,6 @@ class CommentActivity : AppCompatActivity() {
     }
 
 
-
-
-
-
-
     inner class CommentRecyclerviewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
         var commentlist : ArrayList<ContentDTO.Comment> = arrayListOf()
         init {
@@ -106,7 +101,6 @@ class CommentActivity : AppCompatActivity() {
                     }
                 }
         }
-
         override fun getItemCount(): Int {
             return commentlist.size
         }

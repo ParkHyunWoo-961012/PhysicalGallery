@@ -2,7 +2,7 @@
     <string name="app_name">PhysicalGallery</string>
     <string name="upload_success">upload success</string>
     <string name="send">send</string>
-    <string name="alarm_favorite">favorite</string>
-    <string name="alarm_comment">comment</string>
-    <string name="alarm_follow">follow</string>
+    <string name="alarm_favorite">님이 좋아요를 누르셨습니다.</string>
+    <string name="alarm_comment">님이 댓글을 남겼습니다.</string>
+    <string name="alarm_follow">님이 팔로우를 하였습니다.</string>
 </resources>

@@ -88,7 +88,6 @@ class DetailAdapterTesting : RecyclerView.Adapter<DetailAdapterTesting.ViewHolde
                 startActivity(v.context,intent,Bundle())
             }
 
-
         }
 
     }
@@ -116,18 +115,14 @@ class DetailAdapterTesting : RecyclerView.Adapter<DetailAdapterTesting.ViewHolde
         }
 
     }
-        fun favoriteAlarm(destinationUid : String){
-            var alarmDTO = AlarmDTO()
-            alarmDTO.destinationUid = destinationUid
-            alarmDTO.userId = FirebaseAuth.getInstance().currentUser?.email
-            alarmDTO.uid = FirebaseAuth.getInstance().currentUser?.uid
-            alarmDTO.kind= 0
-            alarmDTO.timestamp = System.currentTimeMillis()
-            FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
-
-
-
-
+    fun favoriteAlarm(destinationUid : String){
+        var alarmDTO = AlarmDTO()
+        alarmDTO.destinationUid = destinationUid
+        alarmDTO.userId = FirebaseAuth.getInstance().currentUser?.email
+        alarmDTO.kind= 0
+        alarmDTO.uid = FirebaseAuth.getInstance().currentUser?.uid
+        alarmDTO.timestamp = System.currentTimeMillis()
+        FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
 
         }
 
