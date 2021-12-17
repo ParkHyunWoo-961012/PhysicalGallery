@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.physicalgallery.R
 import com.example.physicalgallery.databinding.ContentDetailBinding
-import com.example.physicalgallery.navigation.TableDataModel.AlarmDTO
-import com.example.physicalgallery.navigation.TableDataModel.ContentDTO
+import com.example.physicalgallery.navigation.SNSDataModel.AlarmDTO
+import com.example.physicalgallery.navigation.SNSDataModel.ContentDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -119,7 +119,7 @@ class DetailAdapterTesting : RecyclerView.Adapter<DetailAdapterTesting.ViewHolde
         var alarmDTO = AlarmDTO()
         alarmDTO.destinationUid = destinationUid
         alarmDTO.userId = FirebaseAuth.getInstance().currentUser?.email
-        alarmDTO.kind= 0
+        alarmDTO.kind= "favorite"
         alarmDTO.uid = FirebaseAuth.getInstance().currentUser?.uid
         alarmDTO.timestamp = System.currentTimeMillis()
         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)

@@ -1,6 +1,7 @@
 package com.example.physicalgallery.navigation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.physicalgallery.R
-import com.example.physicalgallery.navigation.TableDataModel.AlarmDTO
+import com.example.physicalgallery.navigation.SNSDataModel.AlarmDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.content_comment.view.*
@@ -38,9 +39,11 @@ class AlarmFrag : Fragment(){
 
                 for(snapshot in value.documents){
                     alarmDTOList.add(snapshot.toObject(AlarmDTO::class.java)!!)
+                    Log.e("123123","${snapshot.toObject(AlarmDTO::class.java)}")
                 }
                 notifyDataSetChanged()
             }
+
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -56,25 +59,26 @@ class AlarmFrag : Fragment(){
             var view = holder.itemView
 
             var profilecollection = FirebaseFirestore.getInstance().collection("profileImages")
+            Log.e("alarmTEsting","${alarmDTOList[position].uid}")
+            profilecollection.document(alarmDTOList[position].uid!!)
             profilecollection.document(alarmDTOList[position].uid!!).get().addOnCompleteListener{ task ->
                 if(task.isSuccessful){
-                    var url = task.result!!["image"]
+                    var url = task.result!!["profile_image"]
                     var urlglide = Glide.with(view.context).load(url)
                     urlglide.apply(RequestOptions().circleCrop()).into(view.commentview_image_profile)
                 }
             }
             when(alarmDTOList[position].kind){
-                0->{
-                    var str_0 = alarmDTOList[position].userId + getString(R.string.alarm_favorite)
+                "favorite"->{
+                    var str_0 = alarmDTOList[position].userId.toString().split("@")[0] + getString(R.string.alarm_favorite)
                     view.commentview_text_profile.text = str_0
                 }
-
-                1->{
-                    var str_0 = alarmDTOList[position].userId + " " + getString(R.string.alarm_comment)+" of "+ alarmDTOList[position].message
+                "comment"->{
+                    var str_0 = alarmDTOList[position].userId.toString().split("@")[0] + " " + getString(R.string.alarm_comment)+"\""+ alarmDTOList[position].message+"\""
                     view.commentview_text_profile.text = str_0
                 }
-                2->{
-                    var str_0 = alarmDTOList[position].userId + getString(R.string.alarm_follow)
+                "follow"->{
+                    var str_0 = alarmDTOList[position].userId.toString().split("@")[0] + getString(R.string.alarm_follow)
                     view.commentview_text_profile.text = str_0
                 }
             }

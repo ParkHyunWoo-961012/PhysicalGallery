@@ -17,9 +17,9 @@ import com.example.physicalgallery.MainActivity
 import com.example.physicalgallery.R
 import com.example.physicalgallery.databinding.FragmentUserBinding
 import com.example.physicalgallery.databinding.UserpageRecyclerviewBinding
-import com.example.physicalgallery.navigation.TableDataModel.AlarmDTO
-import com.example.physicalgallery.navigation.TableDataModel.ContentDTO
-import com.example.physicalgallery.navigation.TableDataModel.FollowTable
+import com.example.physicalgallery.navigation.SNSDataModel.AlarmDTO
+import com.example.physicalgallery.navigation.SNSDataModel.ContentDTO
+import com.example.physicalgallery.navigation.SNSDataModel.FollowTable
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_main.*
@@ -34,7 +34,18 @@ class UserFrag : Fragment(){
     companion object { //
         var profilesetupnumber = 100
     }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+//        binding.btnItemAlertDialog.setOnClickListener{
+//            val items = arrayOf("Profile Image Change", "NickName Setting")
+//            val toast : Toast
+//            val builder = AlertDialog.Builder(this)
+//                .setTitle("Select Item")
+//                .setItems(items) { dialog, which ->
+//                    toast("${items[which]} is Selected")
+//                }
+//                .show()
+//        }
 
         uid = arguments?.getString("destination").toString()
 
@@ -88,7 +99,7 @@ class UserFrag : Fragment(){
     inner class UserAdapter : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
         var contents : ArrayList<ContentDTO> = arrayListOf()
         init{
-            firestore?.collection("images")?.whereEqualTo("uid",uid)?.addSnapshotListener{
+            firestore?.collection("alarms")?.whereEqualTo("uid",uid)?.addSnapshotListener{
                     querySnapshot, firebaseFirestoreException ->
                 if(querySnapshot == null) return@addSnapshotListener
                 for(snapshot in querySnapshot.documents){
@@ -124,9 +135,10 @@ class UserFrag : Fragment(){
     fun followerAlarm(destinationUid : String){
         var alarmDTO = AlarmDTO()
         alarmDTO.destinationUid = destinationUid
-        alarmDTO.userId = auth?.currentUser?.email
-        alarmDTO.uid = auth?.currentUser?.uid
-        alarmDTO.kind = 2
+        alarmDTO.userId = FirebaseAuth.getInstance().currentUser?.email
+        Log.e("!23123123","${alarmDTO.userId}")
+        alarmDTO.uid = currentuid
+        alarmDTO.kind = "follow"
         alarmDTO.timestamp = System.currentTimeMillis()
         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
     }
@@ -135,12 +147,15 @@ class UserFrag : Fragment(){
     fun getProfileImage(id : String){
         firestore?.collection("profileImages")?.document(id!!)?.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
             if(documentSnapshot == null) return@addSnapshotListener
-            Log.e("123123","${21231231231233123}")
+
             if(documentSnapshot.data != null){
                 Log.e("value.data","${documentSnapshot.data}")
                 var url = documentSnapshot?.data!!["profile_image"]
                 activity?.let { Glide.with(it).load(url).apply(RequestOptions().circleCrop()).into(binding.userProfileImage!!) }
+            }else{
+                binding.userProfileImage.setImageResource(R.mipmap.ic_launcher)
             }
+
         }
     }
 
@@ -150,22 +165,23 @@ class UserFrag : Fragment(){
         firestore?.runTransaction{transaction->
             var followingdata = transaction.get(following!!).toObject(FollowTable::class.java)
             if (followingdata == null) {
-                followingdata = FollowTable(numfollwing = 1)
+                followingdata = FollowTable(numfollowing = 1)
                 followingdata.followings[uid!!] = true
                 transaction.set(following, followingdata)
                 return@runTransaction
             }
             if (followingdata.followings.containsKey(uid)){
-                followingdata.numfollwing = followingdata.numfollwing - 1
+                followingdata.numfollowing = followingdata.numfollowing - 1
                 followingdata.followings.remove(uid)
                 transaction.set(following,followingdata)
             }else{
-                followingdata.numfollwing = followingdata.numfollwing + 1
+                followingdata.numfollowing = followingdata.numfollowing + 1
                 followingdata.followings.remove(uid)
                 transaction.set(following,followingdata)
             }
             return@runTransaction
         }
+
         var follower = firestore?.collection("FollowData")?.document(uid!!)
         firestore?.runTransaction{transaction->
             var followerdata = transaction.get(follower!!).toObject(FollowTable::class.java)
@@ -174,6 +190,7 @@ class UserFrag : Fragment(){
                 followerdata.followers[currentuid!!] = true
                 binding.followButton.text = "Follow Cancel"
                 transaction.set(follower,followerdata)
+                followerAlarm(uid!!)
                 return@runTransaction
             }
             if(followerdata.followers.containsKey(currentuid)){
@@ -185,6 +202,7 @@ class UserFrag : Fragment(){
                 followerdata.numfollower = followerdata.numfollower + 1
                 followerdata.followers[currentuid!!] = true
                 binding.followButton.text = "Follow Cancel"
+                followerAlarm(uid!!)
                 transaction.set(follower,followerdata)
             }
             return@runTransaction
@@ -196,12 +214,12 @@ class UserFrag : Fragment(){
         firestore?.collection("FollowData")?.document(uid!!)?.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
             if(documentSnapshot == null) return@addSnapshotListener
             var followdata = documentSnapshot.toObject(FollowTable::class.java)
-            if(followdata?.numfollwing == null){
+            if(followdata?.numfollowing == null){
                 binding.followingNumber.text = 0.toString()
                 binding.followerNumber.text = 0.toString()//followdata?.numfollwing.toString()
             }
             if(followdata?.numfollower != null){
-                binding.followingNumber.text = followdata?.numfollwing.toString()
+                binding.followingNumber.text = followdata?.numfollowing.toString()
                 binding.followerNumber.text = followdata?.numfollower.toString()
 
                 if(followdata?.followers?.containsKey(currentuid)!!){

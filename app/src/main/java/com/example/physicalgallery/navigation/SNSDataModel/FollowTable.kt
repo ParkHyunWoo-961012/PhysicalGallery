@@ -1,4 +1,4 @@
-package com.example.physicalgallery.navigation.TableDataModel
+package com.example.physicalgallery.navigation.SNSDataModel
 
 data class FollowTable(
     var numfollower : Int = 0,

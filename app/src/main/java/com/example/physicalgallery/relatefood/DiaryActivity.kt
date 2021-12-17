@@ -74,7 +74,7 @@ class DiaryActivity : AppCompatActivity() {
                 var output_text = "먹은 음식 리스트 \n\n"
                 for(i in diarydata.food_list[date]!!)
                     output_text = output_text + i.toString() + "\n"
-                output_text = output_text + "총 칼로리 " + diarydata!!.total_calories[date].toString()
+                output_text = "\n" + output_text + "총 칼로리 " + diarydata!!.total_calories[date].toString()
                 binding.diaryContent.text = output_text
             }else{
                 binding.diaryContent.text = "You don't eat anything"

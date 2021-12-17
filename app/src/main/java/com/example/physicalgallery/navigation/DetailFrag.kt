@@ -15,8 +15,8 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.physicalgallery.R
 import com.example.physicalgallery.databinding.ContentDetailBinding
 import com.example.physicalgallery.databinding.FragmentDetailBinding
-import com.example.physicalgallery.navigation.TableDataModel.AlarmDTO
-import com.example.physicalgallery.navigation.TableDataModel.ContentDTO
+import com.example.physicalgallery.navigation.SNSDataModel.AlarmDTO
+import com.example.physicalgallery.navigation.SNSDataModel.ContentDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -86,8 +86,14 @@ class DetailFrag : Fragment(){
                 firestore?.collection("profileImages")?.document(contents!![pos].uid!!)?.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
                     if(documentSnapshot == null) return@addSnapshotListener
                     Log.e("getFoodData2","${documentSnapshot.getString("profile_image")}")
-                    Glide.with(itemView).load(documentSnapshot.getString("profile_image")).apply(
-                        RequestOptions().circleCrop()).into(binding.userProfileImage)
+                    if(documentSnapshot.getString("profile_image") != null) {
+                        Glide.with(itemView).load(documentSnapshot.getString("profile_image"))
+                            .apply(
+                                RequestOptions().circleCrop()
+                            ).into(binding.userProfileImage)
+                    }else {
+                        binding.userProfileImage.setImageResource(R.mipmap.ic_launcher)
+                    }
                 }
                 //after clicked faivrote button faovorite button color changed or not changed if not cilcked
                 if(contents!![pos].favorites.containsKey(uid)){
@@ -127,11 +133,11 @@ class DetailFrag : Fragment(){
                 var content = it.get(favor!!).toObject(ContentDTO::class.java)
 
                 if (content!!.favorites.containsKey(uid)){//좋아요 눌린상태 에서 다시 누르는 액션 때문에
-                    content.favoriteCount = content?.favoriteCount-1
+                    content.favoriteCount = content?.favoriteCount!!-1
                     content.favorites.remove(uid)
                 }
                 else{//좋아요 안눌린상태에서 좋아요 누르는 액션을 위해
-                    content.favoriteCount = content?.favoriteCount+1
+                    content.favoriteCount = content?.favoriteCount!!+1
                     content.favorites[uid!!] = true
                     // 좋아요 알림
                     favoriteAlarm(contents[position].uid!!)
@@ -146,11 +152,10 @@ class DetailFrag : Fragment(){
             var alarmDTO = AlarmDTO()
             alarmDTO.destinationUid = destinationUid
             alarmDTO.userId = FirebaseAuth.getInstance().currentUser?.email
-            alarmDTO.kind= 0
+            alarmDTO.kind= "favorite"
             alarmDTO.uid = FirebaseAuth.getInstance().currentUser?.uid
             alarmDTO.timestamp = System.currentTimeMillis()
             FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
-
         }
     }
 

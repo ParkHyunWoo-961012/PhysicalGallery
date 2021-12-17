@@ -33,7 +33,7 @@ class FoodDetailPage : AppCompatActivity() {
             }else {
                 val amount = binding.userInputAmount.text.toString().toInt()
                 val provide_amount = detail.provide_per_time.toString().toFloat().toInt()
-                calories = detail.calories.toString().toInt()
+                calories = detail.calories.toString().toFloat().toInt()
                 calories = (amount * calories / provide_amount).toInt()
             }
             Intent(this@FoodDetailPage, DiaryActivity::class.java).apply {

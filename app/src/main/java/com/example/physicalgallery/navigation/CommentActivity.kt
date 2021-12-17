@@ -11,8 +11,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.physicalgallery.R
 import com.example.physicalgallery.databinding.ActivityCommentBinding
-import com.example.physicalgallery.navigation.TableDataModel.AlarmDTO
-import com.example.physicalgallery.navigation.TableDataModel.ContentDTO
+import com.example.physicalgallery.navigation.SNSDataModel.AlarmDTO
+import com.example.physicalgallery.navigation.SNSDataModel.ContentDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_comment.*
@@ -52,7 +52,7 @@ class CommentActivity : AppCompatActivity() {
         var alarmDTO = AlarmDTO()
         alarmDTO.destinationUid = destinationUid
         alarmDTO.userId = FirebaseAuth.getInstance().currentUser?.email
-        alarmDTO.kind =1
+        alarmDTO.kind = "comment"
         alarmDTO.uid = FirebaseAuth.getInstance().currentUser?.uid
         alarmDTO.timestamp = System.currentTimeMillis()
         alarmDTO.message = message

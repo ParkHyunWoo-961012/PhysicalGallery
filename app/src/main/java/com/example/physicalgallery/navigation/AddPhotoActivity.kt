@@ -12,7 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import com.example.physicalgallery.databinding.ActivityAddPhotoBinding
-import com.example.physicalgallery.navigation.TableDataModel.ContentDTO
+import com.example.physicalgallery.navigation.SNSDataModel.ContentDTO
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
